@@ -3,10 +3,19 @@ from django.http import HttpResponse
 from events.forms import EventModelForm, CategoryModelForm, ParticipantModelForm
 from events.models import Event, Category, Participant
 from django.contrib import messages
+from datetime import date
+from django.db.models import Q, Count, Max, Min, Sum, Avg
 
 
 
 # Create your views here.
+
+def home(request):
+    events = Event.objects.prefetch_related('category').prefetch_related('participants').filter(date=date.today())
+
+    return render(request, 'home.html', {'events':events})
+
+    
 
 def create_event(request):
 
@@ -63,9 +72,44 @@ def create_participant(request):
 
 def view_event(request):
 
-    events = Event.objects.select_related('category').all()
+    events = Event.objects.prefetch_related('category').prefetch_related('participants')
 
     return render(request, 'view_event.html', {'events':events})
+
+
+def dashboard(request):
+
+    # totalEvent = Event.objects.prefetch_related('category').prefetch_related('participants').count()
+    # print('Total Event: ',totalEvent)
+    # totalParticipant = Participant.objects.count()
+    # print('Total Participant: ',totalParticipant)
+    # upcoming = Event.objects.filter(date__gt=date.today()).count()
+    # print('Upcoming Event: ',upcoming)
+    # past = Event.objects.filter(date__lt=date.today()).count()
+    # print('Past Event: ',past)
+
+    events = Event.objects.prefetch_related('category').prefetch_related('participants')
+
+    counts = Event.objects.aggregate(
+        totalParticipant = Count('participants', distinct=True),
+        totalEvent = Count('id'),
+        upcomingEvent = Count('id', filter=Q(date__gt=date.today())),
+        pastEvent = Count('id', filter=Q(date__lt=date.today()))
+    )
+
+
+    context = {
+       
+        "events":events,
+        "counts":counts
+        # "totalParticipant":totalParticipant,
+        # "totalEvent":totalEvent,
+        # "upcomingEvent":upcoming,
+        # "pastEvent":past
+    }
+
+    return render(request, 'dashboard.html', context)
+
 
 
 def view_category(request):
@@ -188,7 +232,4 @@ def update_participant(request, id):
 
 
     return render(request, 'create_participant.html', {'form':form})
-
-
-
 
