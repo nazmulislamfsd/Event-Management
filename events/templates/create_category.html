@@ -1,15 +1,18 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Category</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
 </head>
 <body>
-    <form method="POST">
+    <h1 class="text-center text-4xl font-serif">Create Category Form</h1>
+    <form method="POST" class="bg-slate-200 text-center h-screen">
         {% csrf_token %}
         {{form.as_p}}
-        <button type="submit">Create Category</button>
+        <button class="bg-green-500 w-1/2 py-2 rounded-lg mt-3 text-lg text-white font-serif hover:bg-green-600" type="submit">Submit</button>
     </form>
 </body>
 </html>

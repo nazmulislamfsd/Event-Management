@@ -10,9 +10,21 @@ from django.db.models import Q, Count, Max, Min, Sum, Avg
 
 # Create your views here.
 
+def search(request):
+    base_query = Event.objects.prefetch_related('category').prefetch_related('participants')
+
+    query = request.GET.get('q')
+
+    if query:
+        events = base_query.filter(name__icontains=query)
+        return render(request, 'search.html', {'events':events})
+    
+    else:
+        return redirect('home')
+
 def home(request):
     events = Event.objects.prefetch_related('category').prefetch_related('participants').filter(date=date.today())
-
+   
     return render(request, 'home.html', {'events':events})
 
     
@@ -127,18 +139,18 @@ def view_participant(request):
 
 
 def delete_event(request, id):
-
+    
     if request.method=='POST':
 
         event = Event.objects.get(id=id)
         event.delete()
 
-        messages.success(request, "Event delete done.")
-        return redirect('view-event')
+        messages.success(request, "Successfully event deleted.")
+        return redirect('dashboard')
     
     else:
         messages.error(request, "Something went wrong!!")
-        return redirect('view-event')
+        return redirect('dashboard')
     
 
 def delete_category(request, id):
@@ -186,7 +198,7 @@ def update_event(request,id):
             form.save()
 
             messages.success(request, "Successfully Event Updated.")
-            return redirect('view-event')
+            return redirect('dashboard')
 
 
     return render(request, 'create_event.html', {'form':form})
@@ -233,3 +245,9 @@ def update_participant(request, id):
 
     return render(request, 'create_participant.html', {'form':form})
 
+
+def details(request, id):
+
+    event = Event.objects.get(id=id)
+
+    return render(request, 'details.html', {'event':event})

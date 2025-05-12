@@ -1,15 +1,19 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Create Participant</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
 </head>
-<body>
-    <form method='POST'>
+
+<body class="bg-slate-200">
+    <h1 class="text-4xl text-center font-serif bg-slate-100">Create Participant Form</h1>
+    <form method='POST' class="h-screen ml-1">
         {% csrf_token %}
         {{form.as_p}}
-        <button type="submit">Create Participant</button>
+        <button class="bg-green-500 px-5 py-2 text-lg text-white font-serif rounded-lg hover:bg-green-600" type="submit">Submit</button>
     </form>
 </body>
 </html>

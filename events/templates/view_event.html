@@ -31,7 +31,7 @@
       </div>
       <div class="flex gap-6 text-lg mt-3 font-serif">
         <a class="hover:text-red-500" href="{% url 'home' %}">HOME</a>
-        <a class="text-red-500 hover:text-red-500" href="">EVENT</a>
+        <a class=" text-red-500 hover:text-red-500" href="{% url 'view-event' %}">EVENT</a>
         <a class="hover:text-red-500" href="{% url 'dashboard' %}">DASHBOARD</a>
         <a class="hover:text-red-500" href="">SPEAKER</a>
         <a class="hover:text-red-500" href="">GALLARY</a>
@@ -45,17 +45,20 @@
     </div>
     <hr>
   </section>
+
   <!-- hero -->
   <section class="relative h-screen w-full bg-cover bg-center" style="background-image: url('{% static 'images/hero2.jpg' %}');">
     <!-- Dark overlay -->
-    <div class="absolute inset-0 bg-black opacity-60"></div>
+    <div class="absolute inset-0 bg-black opacity-60">
+
+    </div>
   
     <!-- Content -->
     <div class="relative z-10 flex items-center justify-center h-full">
         
       <pre class="text-white text-2xl text-center">
         S I N G L E    |    E V E N T<br>
-        N A Z U   E V E N T   M A N A G E M E N T
+        H A R M O N I   E V E N T   M A N A G E M E N T
       </pre>
     </div>
     
@@ -119,7 +122,10 @@
               
             </div>
             <div class="mt-3">
-                <a href=""><button class="bg-gray-100 border w-full mb-2 py-2 rounded-md text-lg text-gray-900 hover:bg-yellow-400 hover:text-black">Ticket and Details</button></a>
+                <form action="{% url 'details' event.id %}" method="GET">
+                  {% csrf_token %}
+                  <button class="bg-gray-100 border w-full mb-2 py-2 rounded-md text-lg text-gray-900 hover:bg-yellow-400 hover:text-black" type="submit">Ticket and Details</button>
+                </form>
             </div>
           </div>
         </div>
