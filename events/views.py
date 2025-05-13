@@ -4,7 +4,7 @@ from events.forms import EventModelForm, CategoryModelForm, ParticipantModelForm
 from events.models import Event, Category, Participant
 from django.contrib import messages
 from datetime import date
-from django.db.models import Q, Count, Max, Min, Sum, Avg
+from django.db.models import Q, Count
 
 
 
@@ -83,41 +83,77 @@ def create_participant(request):
 
 
 def view_event(request):
-
+    
     events = Event.objects.prefetch_related('category').prefetch_related('participants')
+
+    query = request.GET.get('q')
+    if query:
+        categorys = Category.objects.filter(name__icontains=query)
+        if categorys:
+            category = categorys.first()
+            events = Event.objects.prefetch_related('category').prefetch_related('participants').filter(category=category)
+        else:
+            messages.error(request, "No category matching!!")
+            return redirect('view-event')
+    
+    startDate = request.GET.get('a')
+    endDate = request.GET.get('b')
+
+    if startDate and endDate:
+        
+        events = Event.objects.prefetch_related('category').prefetch_related('participants').filter(date__gte=startDate).filter(date__lte=endDate)
+        
 
     return render(request, 'view_event.html', {'events':events})
 
 
 def dashboard(request):
 
-    # totalEvent = Event.objects.prefetch_related('category').prefetch_related('participants').count()
-    # print('Total Event: ',totalEvent)
-    # totalParticipant = Participant.objects.count()
-    # print('Total Participant: ',totalParticipant)
-    # upcoming = Event.objects.filter(date__gt=date.today()).count()
-    # print('Upcoming Event: ',upcoming)
-    # past = Event.objects.filter(date__lt=date.today()).count()
-    # print('Past Event: ',past)
+    # base_query = Event.objects.prefetch_related('category').prefetch_related('participants')
 
-    events = Event.objects.prefetch_related('category').prefetch_related('participants')
+    type = request.GET.get('type','all')
+    if type=='totalParticipant':
+        title = "A L L    P A R T I C I P A N T ' S"
+        participants = Participant.objects.prefetch_related('event')
+        events = ""
+        categorys = ""
+    elif type=='totalCategory':
+        title = "T O T A L    C A T E G O R Y ' S"
+        categorys = Category.objects.all()
+        events = ""
+        participants = ""
+    elif type=='upcomingEvent':
+        title = "U P C O M I N G    E V E N T ' S"
+        events = Event.objects.prefetch_related('category').prefetch_related('participants').filter(date__gt=date.today())
+        participants = ""
+        categorys = ""
+    elif type=='pastEvent':
+        title = "P A S T    E V E N T ' S"
+        events = Event.objects.prefetch_related('category').prefetch_related('participants').filter(date__lt=date.today())
+        participants = ""
+        categorys = ""
+    elif type=='all':
+        title = "A L L    E V E N T ' S"
+        events = Event.objects.prefetch_related('category').prefetch_related('participants')
+        participants = ""
+        categorys = ""
 
-    counts = Event.objects.aggregate(
-        totalParticipant = Count('participants', distinct=True),
-        totalEvent = Count('id'),
-        upcomingEvent = Count('id', filter=Q(date__gt=date.today())),
-        pastEvent = Count('id', filter=Q(date__lt=date.today()))
-    )
-
+    totalParticipant = Participant.objects.filter(event__isnull=False).distinct().count()
+    totalCategory = Category.objects.count()
+    totalEvent = Event.objects.count()
+    upcomingEvent = Event.objects.filter(date__gt=date.today()).count()
+    pastEvent = Event.objects.filter(date__lt=date.today()).count()
 
     context = {
-       
+        "totalParticipant":totalParticipant,
+        "totalCategory":totalCategory,
+        "totalEvent":totalEvent,
+        "upcomingEvent":upcomingEvent,
+        "pastEvent":pastEvent,
+        "title":title,
         "events":events,
-        "counts":counts
-        # "totalParticipant":totalParticipant,
-        # "totalEvent":totalEvent,
-        # "upcomingEvent":upcoming,
-        # "pastEvent":past
+        "participants":participants,
+        "categorys":categorys
     }
 
     return render(request, 'dashboard.html', context)
@@ -176,12 +212,12 @@ def delete_participant(request, id):
         participant = Participant.objects.get(id=id)
         participant.delete()
 
-        messages.success(request, "participant delete done.")
-        return redirect('view-participant')
+        messages.success(request, "Participant Delete Done.")
+        return redirect('dashboard')
     
     else:
         messages.error(request, "Something went wrong!!")
-        return redirect('view-participant')
+        return redirect('dashboard')
     
 
 
@@ -239,8 +275,8 @@ def update_participant(request, id):
         if form.is_valid():
             form.save()
 
-            messages.success(request, "Successfully participant Updated.")
-            return redirect('view-participant')
+            messages.success(request, "Successfully Participant Updated.")
+            return redirect('create-participant')
 
 
     return render(request, 'create_participant.html', {'form':form})

@@ -47,14 +47,9 @@
   </section>
 
   <!-- hero -->
-  <section class="relative h-screen w-full bg-cover bg-center" style="background-image: url('{% static 'images/hero2.jpg' %}');">
-    <!-- Dark overlay -->
-    <div class="absolute inset-0 bg-black opacity-60">
+  <section class="mb-10 relative h-96 w-full bg-cover bg-center" style="background-image: url('{% static 'images/hero2.jpg' %}');">
 
-    </div>
-  
-    <!-- Content -->
-    <div class="relative z-10 flex items-center justify-center h-full">
+    <div class="flex items-center justify-center h-full">
         
       <pre class="text-white text-2xl text-center">
         S I N G L E    |    E V E N T<br>
@@ -62,6 +57,45 @@
       </pre>
     </div>
     
+  </section>
+
+  <!--Message-->
+  <section>
+    {% for message in messages %}
+      <p class="bg-red-500 text-center font-mono">{{message}}</p>
+    {% endfor %}
+  </section>
+
+  <!-- search  -->
+   <section class="px-20 h-60 bg-rose-400">
+    <h1 class="text-center font-mono text-xl mt-1">FIND BEST EVENT ON HARMONI | <span class="text-white">FILTER</span></h1>
+    <div class="grid grid-cols-3 mt-10">
+      <div>
+        <h1 class="font-mono">Category</h1>
+        <form action="{% url 'view-event' %}" method="get">
+          <input class="px-4 py-2 rounded-sm font-mono" name='q' type="text" placeholder="Type category">
+          <button class="bg-yellow-400 px-4 py-2 rounded-sm font-mono hover:bg-yellow-500" type="submit">FILTER</button>
+        </form>
+      </div>
+      <div>
+        <h1 class="text-3xl font-thin mt-7 ml-28">OR</h1>
+      </div>
+      <div class="-ml-10">
+        <form action="{% url 'view-event' %}" method="get">
+          <div class="flex gap-4">
+            <div>
+            <label class="font-mono" for="">Start Date</label><br>
+            <input class="font-mono px-4 py-2 rounded-sm" name="a" type="text" placeholder="YYYY-MM-DD">
+            </div>
+            <div>
+              <label class="font-mono" for="">End Date</label><br>
+              <input class="font-mono px-4 py-2 rounded-sm" name="b" type="text" placeholder="YYYY-MM-DD">
+            </div>
+          </div>
+          <button class="bg-yellow-400 mt-2 px-4 py-2 rounded-sm font-mono hover:bg-yellow-500" type="submit">FILTER</button>
+        </form>
+      </div>
+    </div>
   </section>
 
    <!-- Sample Event  -->
@@ -139,7 +173,7 @@
 
     <!-- Footer  -->
      <section class="h-96 bg-slate-800">
-      <h1 class="text-4xl font-mono text-center text-white">Contact Us</h1>
+      <h1 class="text-4xl font-mono text-center text-white">CONTACT US</h1>
       <div class="text-center flex items-center justify-center p-16 gap-x-36">
         <div>
           <i class="fa-regular fa-message text-9xl text-white"></i>

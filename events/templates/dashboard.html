@@ -62,38 +62,56 @@
   <hr>
 
   <!-- Card Section  -->
-  <section class="px-20 py-20 grid grid-cols-4 gap-20 bg-slate-800">
-    <div class="rounded-md p-2 bg-gray-200 shadow-md hover:bg-white">
-      <h1 class="text-center">TOTAL PARTICIPANT</h1>
-      <div class="flex justify-around mt-4">
-        <h1 class="text-3xl">{{counts.totalParticipant}}</h1>
-        <i class="fa-solid fa-users mt-1 text-2xl"></i>
+  <section class="px-20 py-20 grid grid-cols-5 gap-6 bg-slate-800">
+    <a href="{% url 'dashboard' %}?type=totalParticipant">
+      <div class="rounded-md p-2 bg-gray-200 shadow-md hover:bg-white">
+        <h1 class="text-center">TOTAL PARTICIPANT</h1>
+        <div class="flex justify-around mt-4">
+          <h1 class="text-3xl">{{totalParticipant}}</h1>
+          <i class="fa-solid fa-users mt-1 text-2xl"></i>
+        </div>
       </div>
-    </div>
+    </a>
     <!--  -->
-    <div class="rounded-md p-2 bg-gray-200 shadow-md hover:bg-white">
-      <h1 class="text-center">TOTAL EVENT</h1>
-      <div class="flex justify-around mt-4">
-        <h1 class="text-3xl">{{counts.totalEvent}}</h1>
-        <i class="fa-solid fa-ticket mt-1 text-2xl"></i>
+    <a href="{% url 'dashboard' %}?type=totalCategory">
+      <div class="rounded-md p-2 bg-gray-200 shadow-md hover:bg-white">
+        <h1 class="text-center">TOTAL CATEGORY</h1>
+        <div class="flex justify-around mt-4">
+          <h1 class="text-3xl">{{totalCategory}}</h1>
+          <i class="fa-solid fa-layer-group mt-1 text-2xl"></i>
+        </div>
       </div>
-    </div>
+    </a>
     <!--  -->
-    <div class="rounded-md p-2 bg-gray-200 shadow-md hover:bg-white">
-      <h1 class="text-center">UPCOMING EVENT</h1>
-      <div class="flex justify-around mt-5">
-        <h1 class="text-3xl">{{counts.upcomingEvent}}</h1>
-        <i class="fa-solid fa-upload mt-1 text-2xl"></i>
+    <a href="{% url 'dashboard' %}">
+      <div class="rounded-md p-2 bg-gray-200 shadow-md hover:bg-white">
+        <h1 class="text-center">TOTAL EVENT</h1>
+        <div class="flex justify-around mt-4">
+          <h1 class="text-3xl">{{totalEvent}}</h1>
+          <i class="fa-solid fa-ticket mt-1 text-2xl"></i>
+        </div>
       </div>
-    </div>
+    </a>
     <!--  -->
-    <div class="rounded-md p-2 bg-gray-200 shadow-md hover:bg-white">
-      <h1 class="text-center">PAST EVENT</h1>
-      <div class="flex justify-around mt-5">
-        <h1 class="text-3xl">{{counts.pastEvent}}</h1>
-        <i class="fa-solid fa-pause mt-1 text-2xl"></i>
+    <a href="{% url 'dashboard' %}?type=upcomingEvent">
+      <div class="rounded-md p-2 bg-gray-200 shadow-md hover:bg-white">
+        <h1 class="text-center">UPCOMING EVENT</h1>
+        <div class="flex justify-around mt-5">
+          <h1 class="text-3xl">{{upcomingEvent}}</h1>
+          <i class="fa-solid fa-upload mt-1 text-2xl"></i>
+        </div>
       </div>
-    </div>
+    </a>
+    <!--  -->
+    <a href="{% url 'dashboard' %}?type=pastEvent">
+      <div class="rounded-md p-2 bg-gray-200 shadow-md hover:bg-white">
+        <h1 class="text-center">PAST EVENT</h1>
+        <div class="flex justify-around mt-5">
+          <h1 class="text-3xl">{{pastEvent}}</h1>
+          <i class="fa-solid fa-pause mt-1 text-2xl"></i>
+        </div>
+      </div>
+    </a>
     
   </section>
 
@@ -103,78 +121,122 @@
     {% endfor %}
   </div>
 
-  <!-- Sample Event  -->
-  <section class="bg-gray-100 mt-10 mb-32">
-    <pre class="text-4xl text-center font-serif mt-10 mb-10">A L L   E V E N T ' S</pre>
-    <!-- box 1 -->
-     {% for event in events %}
-     <div class="flex items-center justify-center mb-5">
-        <div class="bg-white flex gap-2 w-11/12 shadow-md border">
-          <div>
-            {% if event.image %}
-                <img class="rounded-lg p-1" src="{{event.image.url}}" alt="image">
-            {% else %}
-                <img class="rounded-lg p-1" src="static/images/default.jpg" alt="image">
-            {% endif %}
-            
+  {% if title == "A L L    P A R T I C I P A N T ' S" %}
+    <pre class="text-4xl text-center font-serif mt-10 mb-10">{{title}}</pre>
+    {% for participant in participants %}
+      <div class="grid grid-cols-3 px-6 py-1 border bg-rose-100 mt-2 hover:bg-rose-200">
+        <div>
+        <p>{{participant.name}}</p>
         </div>
-          <div class=" w-full">
-            <h1 class="text-2xl"><span class="text-gray-500">{{event.category}}</span> {{event.name}} </h1>
-            <p class="mt-2">{{event.description}}</p>
-            <div class="flex gap-7 mt-5">
-              <div class="flex gap-2 mt-2">
-                <div class="mt-1">
-                  <i class="fa-solid fa-location-dot p-3 text-white text-xl bg-yellow-400 rounded-full"></i>
-                </div>
-                <div>
-                  <h3 class="text-md text-gray-500">Event Date</h3>
-                  <h2 class="text-lg font-semibold">{{event.date}}</h2>
-                </div>
-              </div>
-              <div class="flex gap-2 mt-2">
-                <div class="mt-1">
-                  <i class="fa-regular fa-circle-user p-3 text-white text-xl bg-yellow-400 rounded-full"></i>
-                </div>
-                <div>
-                  <h3 class="text-md text-gray-500">Event Time</h3>
-                  <h2 class="text-lg font-semibold">{{event.time|time:"g : i A"}}</h2>
-                </div>
-              </div>
-              <div class="flex gap-2 mt-2">
-                <div class="mt-1">
-                  <i class="fa-regular fa-circle-user p-3 text-white text-xl bg-yellow-400 rounded-full"></i>
-                </div>
-                <div>
-                  <h3 class="text-md text-gray-500">Event Location</h3>
-                  <h2 class="text-lg font-semibold">{{event.location}}</h2>
-                </div>
-              </div>
-              <div class="flex gap-2 mt-2">
-                <div class="mt-1">
-                  <i class="fa-regular fa-circle-user p-3 text-white text-xl bg-yellow-400 rounded-full"></i>
-                </div>
-                <div>
-                  <h3 class="text-md text-gray-500">Total Participant's</h3>
-                  <h2 class="text-lg font-semibold">{{event.participants.count}}</h2>
-                </div>
-              </div>
-            </div>
-            <div class="mt-3 grid grid-cols-2 gap-4">
-                <a href="{% url 'update-event' event.id%}"><button class="w-full bg-gray-100 border font-semibold mb-2 py-2 rounded-md text-lg text-gray-900 hover:bg-yellow-400 hover:text-black">Update</button></a>
-                <form action="{% url 'delete-event' event.id%}" method="POST">
-                  {% csrf_token %}
-                  <button type="submit" class="w-full bg-gray-100 border font-semibold mb-2 py-2 rounded-md text-lg text-gray-900 hover:bg-yellow-400 hover:text-black">Delete</button>
-                </form>
-            </div>
-          </div>
+        <div>
+          <p>{{participant.email}}</p>
+        </div>
+        <div class="flex gap-10">
+          <form action="{% url "delete-participant" participant.id %}" method="POST">
+            {% csrf_token %}
+            <button class="bg-red-500 px-10 rounded-sm font-mono hover:text-white hover:bg-red-600" type="submit">Delete</button>
+          </form>
+          <button class="bg-green-500 px-10 rounded-sm font-mono hover:text-white hover:bg-green-600"><a href="{% url "update-participant" participant.id %}">Edit</a></button>
         </div>
       </div>
+    {% endfor %}
+  
+  {% elif title == "T O T A L    C A T E G O R Y ' S" %}
+    <pre class="text-4xl text-center font-serif mt-10 mb-10">{{title}}</pre>
+    {% for category in categorys %}
+      <div class="grid grid-cols-3 px-6 py-1 border bg-rose-100 mt-2 hover:bg-rose-200">
+        <div>
+          <h2>{{category.name}}</h2>
+        </div>
+        <div>
+          <p>{{category.description}}</p>
+        </div>
+        <div class="flex gap-6">
+          <form action="{% url "delete-category" category.id %}" method="POST">
+            {% csrf_token %}
+            <button class="bg-red-500 px-10 rounded-sm font-mono hover:text-white hover:bg-red-600" type="submit">Delete</button>
+          </form> 
+          <form>
+            <button class="bg-green-500 px-10 rounded-sm font-mono hover:text-white hover:bg-green-600"><a href="{% url "update-category" category.id %}">Edit</a></button>
+          </form>
+        </div>
+      </div>
+    {% endfor %}
 
-     {% endfor %}
-    
-    
+  {% else %}
+    <!-- Sample Event  -->
+      <section class="bg-gray-100 mt-10 mb-32">
+        <pre class="text-4xl text-center font-serif mt-10 mb-10">{{title}}</pre>
+        <!-- box 1 -->
+        {% for event in events %}
+        <div class="flex items-center justify-center mb-5">
+            <div class="bg-white flex gap-2 w-11/12 shadow-md border">
+              <div>
+                {% if event.image %}
+                    <img class="rounded-lg p-1" src="{{event.image.url}}" alt="image">
+                {% else %}
+                    <img class="rounded-lg p-1" src="static/images/default.jpg" alt="image">
+                {% endif %}
+                
+            </div>
+              <div class=" w-full">
+                <h1 class="text-2xl"><span class="text-gray-500">{{event.category}}</span> {{event.name}} </h1>
+                <p class="mt-2">{{event.description}}</p>
+                <div class="flex gap-7 mt-5">
+                  <div class="flex gap-2 mt-2">
+                    <div class="mt-1">
+                      <i class="fa-solid fa-location-dot p-3 text-white text-xl bg-yellow-400 rounded-full"></i>
+                    </div>
+                    <div>
+                      <h3 class="text-md text-gray-500">Event Date</h3>
+                      <h2 class="text-lg font-semibold">{{event.date}}</h2>
+                    </div>
+                  </div>
+                  <div class="flex gap-2 mt-2">
+                    <div class="mt-1">
+                      <i class="fa-regular fa-circle-user p-3 text-white text-xl bg-yellow-400 rounded-full"></i>
+                    </div>
+                    <div>
+                      <h3 class="text-md text-gray-500">Event Time</h3>
+                      <h2 class="text-lg font-semibold">{{event.time|time:"g : i A"}}</h2>
+                    </div>
+                  </div>
+                  <div class="flex gap-2 mt-2">
+                    <div class="mt-1">
+                      <i class="fa-regular fa-circle-user p-3 text-white text-xl bg-yellow-400 rounded-full"></i>
+                    </div>
+                    <div>
+                      <h3 class="text-md text-gray-500">Event Location</h3>
+                      <h2 class="text-lg font-semibold">{{event.location}}</h2>
+                    </div>
+                  </div>
+                  <div class="flex gap-2 mt-2">
+                    <div class="mt-1">
+                      <i class="fa-regular fa-circle-user p-3 text-white text-xl bg-yellow-400 rounded-full"></i>
+                    </div>
+                    <div>
+                      <h3 class="text-md text-gray-500">Total Participant's</h3>
+                      <h2 class="text-lg font-semibold">{{event.participants.count}}</h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-3 grid grid-cols-2 gap-4">
+                    <a href="{% url 'update-event' event.id%}"><button class="w-full bg-gray-100 border font-semibold mb-2 py-2 rounded-md text-lg text-gray-900 hover:bg-yellow-400 hover:text-black">Update</button></a>
+                    <form action="{% url 'delete-event' event.id%}" method="POST">
+                      {% csrf_token %}
+                      <button type="submit" class="w-full bg-gray-100 border font-semibold mb-2 py-2 rounded-md text-lg text-gray-900 hover:bg-yellow-400 hover:text-black">Delete</button>
+                    </form>
+                </div>
+              </div>
+            </div>
+          </div>
 
-  </section>
+        {% endfor %}
+        
+        
+
+      </section>
+  {% endif %}
 
 </body>
 </html>

@@ -9,7 +9,12 @@
 </head>
 
 <body class="bg-slate-200">
-    <h1 class="text-4xl text-center font-serif bg-slate-100">Create Participant Form</h1>
+    <h1 class="text-4xl text-center font-serif bg-slate-100 mt-5">Create Participant Form</h1>
+    <div>
+        {% for message in messages %}
+            <p class="text-center mt-3 bg-slate-100">{{message}}</p>
+        {% endfor %}
+    </div>
     <form method='POST' class="h-screen ml-1">
         {% csrf_token %}
         {{form.as_p}}
