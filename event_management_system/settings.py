@@ -1,6 +1,5 @@
 
 from pathlib import Path
-import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -15,8 +14,7 @@ SECRET_KEY = 'django-insecure-%^&-nqf+)k&j0_ae-0r43dzyrrxh7h5f_#%$ju7x@b6b@1qb8_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com','http://127.0.0.1:8000']
+ALLOWED_HOSTS = []
 
 # Media
 
@@ -85,26 +83,18 @@ WSGI_APPLICATION = 'event_management_system.wsgi.application'
 #     }
 # }
 
-DATABASES = {
-    'default': dj_database_url.config(
-        # Replace this value with your local database's connection string.
-        default='postgresql://event_management_db_abl7_user:DSTrx2OUna13GDPqjInvsatwYfFAA0hJ@dpg-d0i2r0i4d50c73b1nfjg-a.oregon-postgres.render.com/event_management_db_abl7',
-        conn_max_age=600
-    )
-}
-
 # for postgreSQL
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'event_management_system',
-#         'USER': 'postgres',
-#         'PASSWORD': 'password',
-#         'HOST': 'localhost',
-#         'PORT': '5432'
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'event_management_system',
+        'USER': 'postgres',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': '5432'
+    }
+}
 
 
 # Password validation
