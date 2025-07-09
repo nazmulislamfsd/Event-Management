@@ -1,0 +1,38 @@
+
+{% comment %} <div>
+    {% for event in request.user.rsvp_events.all %}
+        <p>{{request.user.id}} {{event.id}}</p>
+    {% endfor %}
+</div> {% endcomment %}
+
+<h2 class="text-lg font-sans text-gray-700 font-semibold">Your all rsvp events</h2>
+
+<!-- Events box -->
+<div class="mt-5 mb-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <!-- Single event box -->
+    {% if request.user.rsvp_events.all %}
+        {% for event in request.user.rsvp_events.all %}
+            <div class="bg-white rounded-lg shadow p-4">
+                {% if event.image %}
+                    <img src="{{event.image.url}}" alt="Event" class="rounded-md mb-3 w-full h-40">
+                {% else %}
+                    <img src="" alt="Event Image" class="rounded-md mb-3 w-full h-40">
+                {% endif %}
+                <h3 class="text-lg font-bold">{{event.name}}</h3>
+                <p class="text-sm text-gray-600">Category: {{event.category}}</p>
+                <p class="text-sm text-gray-600">Date: {{event.date}}</p>
+                <p class="text-sm text-gray-600">Time: {{event.time}}</p>
+                <p class="text-sm text-gray-600">Location: {{event.location}}</p>
+                <p class="mt-2 text-gray-700 text-sm">{{event.description|truncatewords:10}}</p>
+                <div class="mt-2 flex">
+                    <a href="{% url 'details' event.id %}" class="text-white bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Details</a>
+                    <form action="#" method="">
+                        <button type="submit" class="text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Cancel Rsvp</button>            
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <h3><span class="text-red-600">Warning: </span>No Events.</h3>
+    {% endif %} 
+</div>

@@ -1,0 +1,203 @@
+<!-- Cards section -->
+    <div class="py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6">
+       <!-- Card  -->
+        <a href="{% url 'dashboard' %}?type=totalParticipants">
+            <div class="bg-white p-4 rounded-xl shadow">
+                <h2 class="text-gray-600">Total Participants</h2>
+                <p class="text-2xl font-bold">{{totalParticipants}}</p>
+            </div>
+        </a>
+        <a href="{% url 'dashboard' %}">
+            <div class="bg-white p-4 rounded-xl shadow">
+                <h2 class="text-gray-600">Total Events</h2>
+                <p class="text-2xl font-bold">{{totalEvents}}</p>
+            </div>
+        </a>
+        <a href="{% url 'dashboard' %}?type=totalCategorys">
+            <div class="bg-white p-4 rounded-xl shadow">
+                <h2 class="text-gray-600">Total Categorys</h2>
+                <p class="text-2xl font-bold">{{totalCategorys}}</p>
+            </div>
+        </a>
+        <a href="{% url 'dashboard' %}?type=upComingEvents">
+            <div class="bg-white p-4 rounded-xl shadow">
+                <h2 class="text-gray-600">Up-Comming Events</h2>
+                <p class="text-2xl font-bold">{{upComingEvents}}</p>
+            </div>
+        </a>
+        <a href="{% url 'dashboard' %}?type=pastEvents">
+            <div class="bg-white p-4 rounded-xl shadow">
+                <h2 class="text-gray-600">Past Events</h2>
+                <p class="text-2xl font-bold">{{pastEvents}}</p>
+            </div>
+        </a>
+        <a href="{% url 'dashboard' %}?type=totalGroups">
+            <div class="bg-white p-4 rounded-xl shadow">
+                <h2 class="text-gray-600">Total Groups</h2>
+                <p class="text-2xl font-bold">{{totalGroups}}</p>
+            </div>
+        </a> 
+    </div>
+
+
+{% if title == "total participants" %}
+    <pre class="text-4xl text-center font-serif">{{title|capfirst}}</pre>
+    <!--Create Button -->
+    <div class="py-5">
+        <a href="{% url 'create-participant' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow">+ Create Participant</a>
+    </div>
+
+    <!-- Table -->
+    <div class="bg-white rounded-xl shadow overflow-auto">
+        <table class="w-full text-sm">
+            <thead>
+                <tr class="bg-gray-200 text-gray-600 text-left">
+                    <th class="p-4">Serial</th>
+                    <th class="p-4">User</th>
+                    <th class="p-4">Email</th>
+                    <th class="p-4">Role</th>
+                    <th class="p-4">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for participant in participants %}
+                    <tr class="border-t border-gray-100 hover:bg-gray-50">
+                        <td class="p-4">{{forloop.counter}}</td>
+                        <td class="p-4">{{participant.first_name}} {{participant.last_name}}</td>
+                        <td class="p-4">{{participant.email}}</td>
+                        <td class="p-4 text-green-600">{{participant.groups.first|default:"No Role"}}</td>
+                        <td class="p-4 flex space-x-2">
+                            <a href="{% url 'change-role' participant.id %}" class="bg-green-600 px-3 py-1 text-white rounded-full hover:bg-green-700">Change Role</a>
+                            <form action="{% url 'delete-participant' participant.id %}" method='POST'>
+                            {% csrf_token %}
+                            <button type="submit" class="bg-red-600 px-3 py-1 text-white rounded-full hover:bg-red-700">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% elif title == "total categorys" %}
+    <pre class="text-4xl text-center font-serif">{{title|capfirst}}</pre>
+    <!--Create Button -->
+    <div class="py-5">
+        <a href="{% url 'create-category' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow">+ Create Category</a>
+    </div>
+    <!-- Category Table -->
+    <div class="bg-white rounded-xl shadow overflow-auto">
+        <table class="w-full text-sm">
+            <thead>
+                <tr class="bg-gray-200 text-gray-600 text-left">
+                    <th class="p-4">Serial</th>
+                    <th class="p-4">Category ID</th>
+                    <th class="p-4">Category Name</th>
+                    <th class="p-4">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categorys %}
+                    <tr class="border-t border-gray-100 hover:bg-gray-50">
+                        <td class="p-4">{{forloop.counter}}</td>
+                        <td class="p-4">{{category.id}}</td>
+                        <td class="p-4">{{category.name}}</td>
+                        <td class="p-4 space-x-2 flex">
+                            <a href="{% url 'update-category' category.id %}" class="bg-green-600 px-3 py-1 text-white rounded-full hover:bg-green-700">Edit</a>
+                            <form action="{% url 'delete-category' category.id %}" method='POST'>
+                                {% csrf_token %}
+                                <button type="submit" class="bg-red-600 px-3 py-1 text-white rounded-full hover:bg-red-700">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% elif title == "total groups" %}
+    <pre class="text-4xl text-center font-serif">{{title|capfirst}}</pre>
+    <!--Event Create Button -->
+    <div class="py-5">
+        <a href="{% url 'create-group' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow">+ Create Group</a>
+    </div>
+    <!-- Group Table -->
+    <div class="mb-5">
+        <h2 class="text-2xl font-bold mb-4">Groups and Permissions</h2>
+        <div class="overflow-x-auto">
+            <table class="table-auto w-full border-collapse border border-gray-300">
+                <thead>
+                    <tr class="bg-gray-100">
+                        <th class="border border-gray-300 px-4 py-2">Group Name</th>
+                        <th class="border border-gray-300 px-4 py-2">Permissions</th>
+                        <th class="border border-gray-300 px-4 py-2">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Example group data -->
+                    {% for group in groups %}
+                        <tr class="odd:bg-white even:bg-gray-50">
+                            <td class="border border-gray-300 px-4 py-2 font-medium">
+                                {{group.name}}
+                            </td>
+                            <td class="border border-gray-300 px-4 py-2">
+                                <ul class="list-disc list-inside">
+                                    {% for permission in group.permissions.all %}
+                                        <li>{{permission.name}} || {{permission.codename}}</li>
+                                    {% empty %}
+                                        <span class="text-gray-500 italic">No permission assign</span>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td class="border border-gray-300">
+                                <form action="{% url 'delete-group' group.id %}" method="POST">
+                                    {% csrf_token %}
+                                    <button type="submit" class="bg-blue-600 text-white w-full text-center hover:bg-blue-700">Delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% comment %} show event  {% endcomment %}
+{% else %}
+    <!--Event Create Button -->
+    <div class="">
+        <a href="{% url 'create-event' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow">+ Create Event</a>
+    </div>
+    <!-- Events Grid -->
+    <div class="mt-5 mb-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Event Card -->
+        {% if events %}
+            {% for event in events %}
+                <div class="bg-white rounded-lg shadow p-4">
+                    {% if event.image %}
+                        <img src="{{event.image.url}}" alt="Event" class="rounded-md mb-3 w-full h-40">
+                    {% else %}
+                        <img src="" alt="Event Image" class="rounded-md mb-3 w-full h-40">
+                    {% endif %}
+                    <h3 class="text-lg font-bold">{{event.name}}</h3>
+                    <p class="text-sm text-gray-600">Date: {{event.date}}</p>
+                    <p class="text-sm text-gray-600">Time: {{event.time}}</p>
+                    <p class="text-sm text-gray-600">Location: {{event.location}}</p>
+                    <p class="text-sm text-gray-600">Participants: {{event.participants.all.count}}</p>
+                    <p class="mt-2 text-gray-700 text-sm">{{event.description|truncatewords:15}}</p>
+                    <div class="mt-2 flex space-x-2">
+                        <a href="{% url 'update-event' event.id %}" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">Edit</a>
+                        <form action="{% url 'delete-event' event.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="text-white bg-rose-500 hover:bg-rose-600 focus:ring-4 focus:ring-rose-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <h3><span class="text-red-600">Warning: </span>...................</h3>
+        {% endif %} 
+    </div>
+{% endif %}

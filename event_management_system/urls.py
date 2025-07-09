@@ -22,7 +22,7 @@ from debug_toolbar.toolbar import debug_toolbar_urls
 from events.views import home
 
 urlpatterns = [
-    path("", home, name='home'),
+    path('', home, name='home'),
     path('admin/', admin.site.urls),
     path('event/', include('events.urls')),
     

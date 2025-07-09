@@ -1,0 +1,18 @@
+<!-- Header -->
+<section class="bg-white shadow-md px-20 py-3 flex justify-between items-center">
+    <div>
+        <h1 class="text-2xl font-semibold">Dashboard</h1>
+    </div>
+    <div class="flex">
+        <a href="{% url 'home' %}" class="py-2.5 px-4 text-gray-700 hover:bg-gray-100 hover:rounded-full">Home</a>
+        <a href="{% url 'dashboard' %}" class="py-2.5 px-4 text-gray-700 bg-gray-100 rounded-full hover:bg-gray-100 hover:rounded-full">Dashboard</a>
+        <a href="#" class="py-2.5 px-4 text-gray-700 hover:bg-gray-100 hover:rounded-full">My Permission</a>
+    </div>
+    <div class="flex items-center space-x-2">
+        <button type="button" class="mt-2 text-gray-900 bg-lime-400 hover:bg-lime-500 focus:ring-4 focus:ring-lime-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2">Role: {{user.groups.first}}</button>
+        <form action="{% url 'sign-out' %}" method='POST'>
+        {% csrf_token %}
+        <button type="submit" class="mt-2 text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mb-2">Logout</button>
+        </form>
+    </div>
+</section>

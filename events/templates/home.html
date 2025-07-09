@@ -5,177 +5,101 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Home</title>
-
   <link rel="stylesheet" href="{% static 'css/output.css' %}" />
   <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Italianno&display=swap" rel="stylesheet">
-
-		<style>
-			body{
-				font-family: "Inter",sans-serif;
-        font-family: 'Times New Roman', Times, serif;
-        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-			}
-		</style>
-
 </head>
-<body class="bg-gray-100 ">
-  <!-- Navbar -->
-  <section>
-    <div class="flex justify-between p-6">
-      <div>
-        <img src="{% static 'images/0.site-logo.png' %}" alt="Logo">
-      </div>
-      <div class="flex gap-6 text-lg mt-3 font-serif">
-        <a class="text-red-500 hover:text-red-500" href="">HOME</a>
-        <a class="hover:text-red-500" href="{% url 'view-event' %}">EVENT</a>
-        <a class="hover:text-red-500" href="{% url 'dashboard' %}">DASHBOARD</a>
-        <a class="hover:text-red-500" href="">SPEAKER</a>
-        <a class="hover:text-red-500" href="">GALLARY</a>
-        <a class="hover:text-red-500" href="">ABOUT</a>
-        <a class="hover:text-red-500" href="">CONTACT</a>
-      </div>
-      <div class="mt-1 hover:cursor-pointer">
-        <i class="fa-solid fa-user text-xl bg-gray-200 p-2 rounded-full hover:bg-red-500 hover:text-white"></i>
-        <i class="fa-solid fa-bell text-xl bg-gray-200 p-2 rounded-full hover:bg-red-500 hover:text-white"></i>
-      </div>
-    </div>
-    <hr>
-  </section>
 
-  <!-- hero -->
-  <section class="relative h-screen w-full bg-cover bg-center" style="background-image: url('{% static 'images/bg-1-1.jpg' %}');">
-    
-    <div class="flex items-center justify-center h-full">
-      <p class="text-white font-serif text-3xl text-center">
-        Birthday Event Management Specialist<br><br>
-        <span class="font-serif text-4xl">CELEBRATE YOUR EVENT'S THATS LAST LONGER</span>
-      </p>
-    </div>
-    
-  </section>
+<body class="bg-gray-100 font-sans">
   
-  
-  <!-- search  -->
-   <section class="mt-20 flex items-center justify-between h-60 bg-rose-400">
-    <div class="text-white ml-20">
-      <p class="font-thin">FIND BEST EVENT ON HARMONI</p>
-      <h1 class="text-4xl mt-2">EVENT <span class="text-yellow-400">SEARCH</span></h1>
-    </div>
-    <div class="text-white mr-20">
-      <!-- form  -->
-      <form class="flex gap-2 border-1 border-blue-600" action="{% url 'search' %}" method="GET">
-        <div>
-          <p class="mb-3 font-sans">EVENT KEYWORD</p>
-          <input class="p-2.5 px-20 text-black rounded-sm" type="text" name="q" placeholder="Type event name">
-        </div>
-        <div>
-          <button class="bg-yellow-400 text-black p-2.5 px-4 mt-9 rounded-sm hover:bg-yellow-500" type="submit">SEARCH EVENT</button>
-        </div>
-      
-      </form>
+  <header>
+    <!-- header -->
+    {% if request.user.is_authenticated %}
+      {% include "nav/log_nav.html" %}
+    {% else %}
+      {% include "nav/non_log_nav.html" %}
+    {% endif %}
+  </header>
 
-    </div>
-   </section>
-
-   <!-- Sample Event  -->
-   <section class="bg-gray-100 mt-10 mb-32">
-    <pre class="text-4xl text-center font-serif mt-10 mb-10">T O D A Y     E V E N T ' S</pre>
-    <!-- box 1 -->
-     {% for event in events %}
-     <div class="flex items-center justify-center mb-5">
-        <div class="bg-white flex gap-2 w-11/12 shadow-md border">
+  <main>
+    <!-- hero -->
+    <section class="h-96 w-full bg-cover bg-center" style="background-image: url('{% static 'images/bg-1-1.jpg' %}');">
+      <div class="flex items-center justify-center h-full">
+        <p class="text-white font-serif text-5xl text-center">
+          Simplify Your Event Management<br>
+          <span class="font-serif text-2xl">Create, manage and organize events effortlessly. Perfect for organizers and participants.</span>
+        </p>
+      </div>
+      <div class="flex items-center justify-center -mt-20">
+        <a href="#" class="bg-yellow-500 text-white px-6 py-3 rounded-md text-lg hover:bg-yellow-400">Get Started</a>
+      </div>
+    </section>
+    
+    <!--Message-->
+    <section>
+      {% for message in messages %}
+        <p class="bg-blue-100 text-center border border-white font-sans text-gray-800">{{message}}</p>
+      {% endfor %}
+    </section>
+    
+    <!-- search  -->
+    <section class="flex items-center justify-between h-60 bg-blue-100">
+      <div class="text-black ml-20">
+        <p class="font-thin">FIND BEST EVENT ON HARMONI</p>
+        <h1 class="text-4xl mt-2">EVENT <span class="text-blue-400">SEARCH</span></h1>
+      </div>
+      <div class="text-white mr-20">
+        <!-- form  -->
+        <form class="flex gap-2 border-1 border-blue-600" action="{% url 'home' %}" method="GET">
           <div>
-            {% if event.image %}
-                <img class="rounded-lg p-1" src="{{event.image.url}}" alt="image">
-            {% else %}
-                <img class="rounded-lg p-1" src="static/images/default.jpg" alt="image">
-            {% endif %}
-            
-        </div>
-          <div class=" w-full">
-            <h1 class="text-2xl"><span class="text-gray-500">{{event.category}}</span> {{event.name}} </h1>
-            <p class="mt-2">{{event.description}}</p>
-            <div class="flex gap-7 mt-5">
-              <div class="flex gap-2 mt-2">
-                <div class="mt-1">
-                  <i class="fa-solid fa-location-dot p-3 text-white text-xl bg-yellow-400 rounded-full"></i>
-                </div>
-                <div>
-                  <h3 class="text-md text-gray-500">Event Date</h3>
-                  <h2 class="text-lg font-semibold">{{event.date}}</h2>
-                </div>
-              </div>
-              <div class="flex gap-2 mt-2">
-                <div class="mt-1">
-                  <i class="fa-regular fa-circle-user p-3 text-white text-xl bg-yellow-400 rounded-full"></i>
-                </div>
-                <div>
-                  <h3 class="text-md text-gray-500">Event Time</h3>
-                  <h2 class="text-lg font-semibold">{{event.time|time:"g : i A"}}</h2>
-                </div>
-              </div>
-              <div class="flex gap-2 mt-2">
-                <div class="mt-1">
-                  <i class="fa-regular fa-circle-user p-3 text-white text-xl bg-yellow-400 rounded-full"></i>
-                </div>
-                <div>
-                  <h3 class="text-md text-gray-500">Event Location</h3>
-                  <h2 class="text-lg font-semibold">{{event.location}}</h2>
-                </div>
-              </div>
-              <div class="flex gap-2 mt-2">
-                <div class="mt-1">
-                  <i class="fa-regular fa-circle-user p-3 text-white text-xl bg-yellow-400 rounded-full"></i>
-                </div>
-                <div>
-                  <h3 class="text-md text-gray-500">Total Participant's</h3>
-                  <h2 class="text-lg font-semibold">{{event.participants.count}}</h2>
-                </div>
-              </div>
-              
-            </div>
-            <div class="mt-3">
-              <form action="{% url 'details' event.id %}" method="GET">
-                  {% csrf_token %}
-                  <button class="bg-gray-100 border w-full mb-2 py-2 rounded-md text-lg text-gray-900 hover:bg-yellow-400 hover:text-black" type="submit">Ticket and Details</button>
-                </form>
-                <!-- <a href="{% url 'details' event.id %}"><button class="bg-gray-100 border w-full mb-2 py-2 rounded-md text-lg text-gray-900 hover:bg-yellow-400 hover:text-black">Ticket and Details</button></a> -->
-            </div>
+            <p class="mb-3 font-sans text-gray-800">EVENT KEYWORD</p>
+            <input class="px-2 py-2.5 text-black rounded-sm" type="text" name="q" placeholder="Type event name">
           </div>
-        </div>
+          <div>
+            <button class="bg-yellow-400 text-white p-2.5 px-4 mt-9 rounded-sm hover:bg-yellow-500" type="submit">SEARCH EVENT</button>
+          </div>
+        </form>
       </div>
+    </section>
 
-     {% endfor %}
-    
-    
-
-  </section>
-
-    <!-- Footer  -->
-     <section class="h-96 bg-slate-800">
-      <h1 class="text-4xl font-mono text-center text-white">CONTACT US</h1>
-      <div class="text-center flex items-center justify-center p-16 gap-x-36">
-        <div>
-          <i class="fa-regular fa-message text-9xl text-white"></i>
-        </div>
-        <div>
-          <form class="text-white font-mono text-lg" action="">
-            <label for="">YOUR NAME</label>
-            <input class="px-10 text-black rounded-sm" type="text" placeholder="Type your name">
-            <label for="">YOUR EMAIL</label>
-            <input class="px-10 text-black rounded-sm" type="text" placeholder="Type your email"><br><br>
-            <label for="">MESSAGE</label>
-            <input class="w-full py-10 text-black rounded-sm" type="text" placeholder="Type your message">
-            <button class="bg-blue-800 w-full mt-5 font-mono rounded-sm p-1 hover:bg-blue-700" type="submit">Send</button>
-          </form>
-        </div>
+    <!-- Events box -->
+      <div class="px-20 mt-5 mb-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        
+        <!-- Single event box -->
+        {% if events %}
+          {% for event in events %}
+            <div class="bg-white rounded-lg shadow p-4">
+              {% if event.image %}
+                <img src="{{event.image.url}}" alt="Event" class="rounded-md mb-3 w-full h-40">
+              {% else %}
+                <img src="" alt="Event Image" class="rounded-md mb-3 w-full h-40">
+              {% endif %}
+                <h3 class="text-lg font-bold">{{event.name}}</h3>
+                <p class="text-sm text-gray-600">Category: {{event.category}}</p>
+                <p class="text-sm text-gray-600">Date: {{event.date}}</p>
+                <p class="text-sm text-gray-600">Time: {{event.time}}</p>
+                <p class="text-sm text-gray-600">Location: {{event.location}}</p>
+                <p class="text-sm text-gray-600">Participants: {{event.participants.all.count}}</p>
+                <p class="mt-2 text-gray-700 text-sm">{{event.description|truncatewords:10}}</p>
+                <div class="mt-2 flex space-x-2">
+                  <a href="{% url 'details' event.id %}" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">Details</a>
+                  <form action="{% url 'rsvp-system' event.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="text-white bg-rose-500 hover:bg-rose-600 focus:ring-4 focus:ring-rose-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">Rsvp</button>            
+                  </form>
+                </div>
+            </div>
+          {% endfor %}
+        {% else %}
+            <h3><span class="text-red-600">Warning: </span>There are no events on today's date. You can search for events.</h3>
+        {% endif %} 
       </div>
-     </section>
+  </main>
+
+  <footer>
+    {% include "footer/footer.html" %}
+  </footer>
 
 </body>
 </html>

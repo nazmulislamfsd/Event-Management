@@ -7,18 +7,15 @@
     <title>Create Event</title>
     <link rel="stylesheet" href="{% static 'css/output.css' %}">
 </head>
-<body>
-    <div>
-        {% for message in messages %}
-            <p>{{message}}</p>
-        {% endfor %}
+<body class="bg-blue-100">
+    <h1 class="text-center text-3xl py-10 font-serif">Create Event Form</h1>
+    <div class="text-center">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button class="ml-28 bg-green-500 text-white w-1/2 mt-4 hover:bg-green-600 py-2 rounded-lg text-lg shadow-sm font-serif" type="submit">Submit</button>
+        </form>
     </div>
-    <h1 class="text-center text-4xl font-serif">Create Event Form</h1>
-    <form method="post" enctype="multipart/form-data" class="bg-slate-200 h-screen text-center">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button class="bg-green-500 text-white w-1/2 mt-4 hover:bg-green-600 py-2 rounded-lg text-lg shadow-sm font-serif" type="submit">Submit</button>
-    </form>
     
 </body>
 </html>

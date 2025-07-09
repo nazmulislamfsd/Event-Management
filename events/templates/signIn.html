@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>sign-in</title>
+	<link rel="stylesheet" href="{% static 'css/output.css' %}"/>
+</head>
+
+<body class="bg-blue-100">
+    <h3 class="text-3xl text-center font-serif py-10 text-slate-900">Sign In</h3>
+    <div class="text-center">
+        <form method="POST">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit" class="bg-blue-500 w-1/2 py-2 mt-3 text-white rounded-md hover:bg-blue-600">Sign In</button>
+        </form>
+    </div>
+</body>
+
+</html>

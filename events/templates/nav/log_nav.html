@@ -1,0 +1,22 @@
+{% load static %}
+<!--logged header -->
+
+<div class="bg-white flex justify-between px-20 py-3">
+    <div>
+        <img src="{% static 'images/0.site-logo.png' %}" alt="Logo">
+    </div>
+    <div class="flex mt-1">
+        <a href="{% url 'home' %}" class="py-2.5 px-4 text-gray-700 hover:text-yellow-400 hover:font-bold hover:text-lg">Home</a>
+        <a href="{% url 'view-event' %}" class="py-2.5 px-4 text-gray-700 hover:text-yellow-400 hover:font-bold hover:text-lg">Events</a>
+        <a href="{% url 'dashboard' %}" class="py-2.5 px-4 text-gray-700 hover:text-yellow-400 hover:font-bold hover:text-lg">Dashboard</a>
+        <a href="#" class="py-2.5 px-4 text-gray-700 hover:text-yellow-400 hover:font-bold hover:text-lg">About</a>
+        <a href="#" class="py-2.5 px-4 text-gray-700 hover:text-yellow-400 hover:font-bold hover:text-lg">Contact</a>
+    </div>
+    <div class="flex items-center">
+        <form action="{% url 'sign-out' %}" method="POST">
+            {% csrf_token %}
+            <button type="submit" class="mt-2 text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2">Logout</button>
+        </form>
+    </div>
+</div>
+

@@ -1,0 +1,18 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Role Form</title>
+    <link rel="stylesheet" href="{% static 'css/output.css' %}">
+</head>
+<body class="bg-blue-100">
+    <h2 class="text-center text-2xl py-10 font-serif">Change Role</h2>
+    <form action="" method="POST" class="text-center">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit" class="mt-4 ml-10 bg-green-500 w-1/2 py-2 rounded-lg text-white hover:bg-green-600">Submit</button>
+    </form>
+</body>
+</html>

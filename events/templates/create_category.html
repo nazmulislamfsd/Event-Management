@@ -7,12 +7,14 @@
     <title>Create Category</title>
     <link rel="stylesheet" href="{% static 'css/output.css' %}">
 </head>
-<body>
-    <h1 class="text-center text-4xl font-serif">Create Category Form</h1>
-    <form method="POST" class="bg-slate-200 text-center h-screen">
-        {% csrf_token %}
-        {{form.as_p}}
-        <button class="bg-green-500 w-1/2 py-2 rounded-lg mt-3 text-lg text-white font-serif hover:bg-green-600" type="submit">Submit</button>
-    </form>
+<body class="bg-blue-100">
+    <div class="py-20 text-center">
+        <h1 class="text-center text-3xl font-serif">Category Form</h1>
+        <form method="POST">
+            {% csrf_token %}
+            {{form}}
+            <button class="ml-40 bg-green-500 w-1/2 py-2 rounded-lg mt-4 text-lg text-white font-serif hover:bg-green-600" type="submit">Submit</button>
+        </form>
+    </div>
 </body>
 </html>
