@@ -47,7 +47,12 @@
   </section>
 
   <section>
-    <pre class="text-3xl text-center p-8 font-serif bg-yellow-100">'D A S H B O A R D'</pre>
+    <div class="text-3xl text-center h-20 bg-yellow-100">
+      <pre class="font-serif">'D A S H B O A R D'</pre>
+      {% for message in messages %}
+        <p class="text-center text-lg font-mono">{{message}}</p>
+      {% endfor %}
+    </div>
     <div class="text-center flex items-center justify-center p-16 gap-x-36 bg-slate-800">
       <div>
         <i class="fa-solid fa-folder-plus text-9xl text-gray-200 hover:text-white hover:cursor-pointer"></i>
@@ -112,19 +117,14 @@
         </div>
       </div>
     </a>
-    
+
   </section>
 
-  <div>
-    {% for message in messages %}
-      <p class="text-center text-lg font-mono">{{message}}</p>
-    {% endfor %}
-  </div>
 
-  {% if title == "A L L    P A R T I C I P A N T ' S" %}
+  {% if title == "T O T A L    P A R T I C I P A N T ' S" %}
     <pre class="text-4xl text-center font-serif mt-10 mb-10">{{title}}</pre>
     {% for participant in participants %}
-      <div class="grid grid-cols-3 px-6 py-1 border bg-rose-100 mt-2 hover:bg-rose-200">
+      <div class="grid grid-cols-3 px-6 py-1 mb-5 border bg-rose-100 mt-2 hover:bg-rose-200">
         <div>
         <p>{{participant.name}}</p>
         </div>
@@ -144,7 +144,7 @@
   {% elif title == "T O T A L    C A T E G O R Y ' S" %}
     <pre class="text-4xl text-center font-serif mt-10 mb-10">{{title}}</pre>
     {% for category in categorys %}
-      <div class="grid grid-cols-3 px-6 py-1 border bg-rose-100 mt-2 hover:bg-rose-200">
+      <div class="grid grid-cols-3 px-6 py-1 mb-5 border bg-rose-100 mt-2 hover:bg-rose-200">
         <div>
           <h2>{{category.name}}</h2>
         </div>
@@ -156,9 +156,7 @@
             {% csrf_token %}
             <button class="bg-red-500 px-10 rounded-sm font-mono hover:text-white hover:bg-red-600" type="submit">Delete</button>
           </form> 
-          <form>
-            <button class="bg-green-500 px-10 rounded-sm font-mono hover:text-white hover:bg-green-600"><a href="{% url "update-category" category.id %}">Edit</a></button>
-          </form>
+          <a href="{% url "update-category" category.id %}" class="bg-green-500 px-10 rounded-sm font-mono hover:text-white hover:bg-green-600">Edit</a>
         </div>
       </div>
     {% endfor %}

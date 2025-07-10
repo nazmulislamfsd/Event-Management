@@ -17,6 +17,7 @@ def search(request):
 
     if query:
         events = base_query.filter(name__icontains=query)
+
         return render(request, 'search.html', {'events':events})
     
     else:
@@ -27,9 +28,10 @@ def home(request):
    
     return render(request, 'home.html', {'events':events})
 
-    
 
 def create_event(request):
+
+    form = EventModelForm()
 
     if request.method == 'POST':
         form = EventModelForm(request.POST, request.FILES)
@@ -37,17 +39,16 @@ def create_event(request):
         if form.is_valid():
             form.save()
 
-            messages.success(request, "Event Created Successfully")
-            return redirect('create-event')
-    
-    else:
-        form = EventModelForm()
-
+            messages.success(request, "Successfully event created")
+            return redirect('dashboard')
+ 
     return render(request, 'create_event.html', {'form':form})
 
 
 
 def create_category(request):
+
+    form = CategoryModelForm()
     
     if request.method == 'POST':
         form = CategoryModelForm(request.POST)
@@ -55,11 +56,8 @@ def create_category(request):
         if form.is_valid():
             form.save()
 
-            messages.success(request, "Category Created Done")
-            return redirect('create-category')
-
-    else:
-        form = CategoryModelForm()
+            messages.success(request, "Successfully category created")
+            return redirect('dashboard')
 
     return render(request, 'create_category.html', {'form':form})
 
@@ -67,18 +65,18 @@ def create_category(request):
 
 def create_participant(request):
 
+    form = ParticipantModelForm()
+
     if request.method == 'POST':
         form = ParticipantModelForm(request.POST)
 
         if form.is_valid():
             form.save()
 
-            messages.success(request, "Participant Created Done")
-            return redirect('create-participant')
+            messages.success(request, "Successfully participant created")
+            return redirect('dashboard')
         
-    else:
-        form = ParticipantModelForm()
-    
+
     return render(request, 'create_participant.html', {'form':form})
 
 
@@ -99,8 +97,7 @@ def view_event(request):
     startDate = request.GET.get('a')
     endDate = request.GET.get('b')
 
-    if startDate and endDate:
-        
+    if startDate and endDate:    
         events = Event.objects.prefetch_related('category').prefetch_related('participants').filter(date__gte=startDate).filter(date__lte=endDate)
         
 
@@ -113,8 +110,8 @@ def dashboard(request):
 
     type = request.GET.get('type','all')
     if type=='totalParticipant':
-        title = "A L L    P A R T I C I P A N T ' S"
-        participants = Participant.objects.prefetch_related('event')
+        title = "T O T A L    P A R T I C I P A N T ' S"
+        participants = Participant.objects.filter(event__isnull=False).distinct()
         events = ""
         categorys = ""
     elif type=='totalCategory':
@@ -196,14 +193,13 @@ def delete_category(request, id):
         category = Category.objects.get(id=id)
         category.delete()
 
-        messages.success(request, "Category delete done.")
-        return redirect('view-category')
+        messages.success(request, "Successfully category deleted.")
+        return redirect('dashboard')
     
     else:
-        messages.error(request, "Something went wrong!!")
-        return redirect('view-category')
+        messages.error(request, "Category was not delete, something went wrong!!")
+        return redirect('dashboard')
     
-
 
 def delete_participant(request, id):
 
@@ -212,11 +208,11 @@ def delete_participant(request, id):
         participant = Participant.objects.get(id=id)
         participant.delete()
 
-        messages.success(request, "Participant Delete Done.")
+        messages.success(request, "Successfully participant deleted.")
         return redirect('dashboard')
     
     else:
-        messages.error(request, "Something went wrong!!")
+        messages.error(request, "Participant was not delete, something went wrong!!")
         return redirect('dashboard')
     
 
@@ -224,7 +220,6 @@ def delete_participant(request, id):
 def update_event(request,id):
     
     event = Event.objects.get(id=id)
-
     form = EventModelForm(instance=event)
 
     if request.method == 'POST':
@@ -241,7 +236,6 @@ def update_event(request,id):
 
 
 
-
 def update_category(request, id):
     
     category = Category.objects.get(id=id)
@@ -255,12 +249,9 @@ def update_category(request, id):
             form.save()
 
             messages.success(request, "Successfully Category Updated.")
-            return redirect('view-category')
-
+            return redirect('dashboard')
 
     return render(request, 'create_category.html', {'form':form})
-
-
 
 
 def update_participant(request, id):
@@ -276,10 +267,10 @@ def update_participant(request, id):
             form.save()
 
             messages.success(request, "Successfully Participant Updated.")
-            return redirect('create-participant')
-
+            return redirect('dashboard')
 
     return render(request, 'create_participant.html', {'form':form})
+
 
 
 def details(request, id):
