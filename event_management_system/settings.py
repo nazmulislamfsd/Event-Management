@@ -26,6 +26,8 @@ CSRF_TRUSTED_ORIGINS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# STATICFILES_DIRS = [ BASE_DIR / "static" ]
+
 # Application definition
 
 INSTALLED_APPS = [
