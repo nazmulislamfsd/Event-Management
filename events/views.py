@@ -10,22 +10,18 @@ from django.db.models import Q, Count
 
 # Create your views here.
 
-def search(request):
+
+def home(request):
     base_query = Event.objects.prefetch_related('category').prefetch_related('participants')
-
+    events = base_query.filter(date=date.today())
+    
     query = request.GET.get('q')
-
     if query:
         events = base_query.filter(name__icontains=query)
 
-        return render(request, 'search.html', {'events':events})
-    
-    else:
-        return redirect('home')
+        return render(request, 'home.html', {'events':events})
 
-def home(request):
-    events = Event.objects.prefetch_related('category').prefetch_related('participants').filter(date=date.today())
-   
+
     return render(request, 'home.html', {'events':events})
 
 
@@ -155,20 +151,6 @@ def dashboard(request):
 
     return render(request, 'dashboard.html', context)
 
-
-
-def view_category(request):
-
-    categorys = Category.objects.all()
-
-    return render(request, 'view_category.html', {'categorys':categorys})
-
-
-def view_participant(request):
-
-    participants = Participant.objects.prefetch_related('event').all()
-
-    return render(request, 'view_participant.html', {'participants':participants})
 
 
 def delete_event(request, id):
