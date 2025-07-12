@@ -26,6 +26,8 @@ CSRF_TRUSTED_ORIGINS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
+# STATICFILES_DIRS = [ BASE_DIR / "static" ]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -52,7 +54,7 @@ MIDDLEWARE = [
 
 
 INTERNAL_IPS = [
-    "127.0.0.1",
+    '127.0.0.1'
 ]
 
 
@@ -91,10 +93,13 @@ WSGI_APPLICATION = 'event_management_system.wsgi.application'
 DATABASES = {
     'default': dj_database_url.config(
         # Replace this value with your local database's connection string.
-        default='postgresql://event_management_db_3juk_user:LRpLjsZXAoYI3BZk2QS7vTS8FezuW6WP@dpg-d0ipme3e5dus739rncc0-a.oregon-postgres.render.com/event_management_db_3juk',
+        default='postgresql://event_management_db_p95q_user:6lYJDE1uFx44kfpF6ApVcootzDdGqovn@dpg-d1nm4n6mcj7s73fc1mpg-a.oregon-postgres.render.com/event_management_db_p95q',
         conn_max_age=600
+        
     )
 }
+
+
 
 # for postgreSQL
 

@@ -5,14 +5,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Event</title>
-
     <link rel="stylesheet" href="{% static 'css/output.css' %}" />
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Italianno&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Italianno&display=swap" rel="stylesheet">
 
 		<style>
 			body{
@@ -25,30 +24,99 @@
 
 <body class="bg-gray-100">
 
-  <!-- Navbar -->
-  <section>
-    <div class="flex justify-between p-6">
-      <div>
-        <img src="{% static 'images/0.site-logo.png' %}" alt="Logo">
+  <header>
+    <section class="w-full px-2 md:px-10 flex space-x-1 bg-white md:justify-between">
+      <div class="h-8">
+        <img src="{% static 'images/0.site-logo.png' %}" alt="logo" class="w-20 h-auto py-3">
       </div>
-      <div class="flex gap-6 text-lg mt-3 font-serif">
-        <a class="hover:text-red-500" href="{% url 'home' %}">HOME</a>
-        <a class="text-red-500 hover:text-red-500" href="{% url 'view-event' %}">EVENT</a>
-        <a class="hover:text-red-500" href="{% url 'dashboard' %}">DASHBOARD</a>
-        <a class="hover:text-red-500" href="">SPEAKER</a>
-        <a class="hover:text-red-500" href="">GALLARY</a>
-        <a class="hover:text-red-500" href="">ABOUT</a>
-        <a class="hover:text-red-500" href="">CONTACT</a>
+      <div class="flex gap-2 py-2 md:gap-6">
+        <a class="text-sm hover:text-red-500" href="{% url 'home' %}">Home</a>
+        <a class="text-sm text-red-500 hover:text-red-500" href="{% url 'view-event' %}">Event</a>
+        <a class="text-sm hover:text-red-500" href="{% url 'dashboard' %}">Dashboard</a>
+        <a class="text-sm hover:text-red-500" href="">About</a>
+        <a class="text-sm hover:text-red-500" href="">Contact</a>
       </div>
-      <div class="mt-1 hover:cursor-pointer">
-        <i class="fa-solid fa-user text-xl bg-gray-200 p-2 rounded-full hover:bg-red-500 hover:text-white"></i>
-        <i class="fa-solid fa-bell text-xl bg-gray-200 p-2 rounded-full hover:bg-red-500 hover:text-white"></i>
+      <div class="hidden md:flex hover:cursor-pointer md:space-x-2 lg:space-x-2">
+        <i class="fa-solid fa-user text-xl bg-gray-200 md:p-2 rounded-full hover:bg-red-500 hover:text-white"></i>
+        <i class="fa-solid fa-bell text-xl bg-gray-200 md:p-2 rounded-full hover:bg-red-500 hover:text-white"></i>
       </div>
-    </div>
-    <hr>
-  </section>
+    </section>
+  </header>
 
-  <!-- Sample Event  -->
+  <!-- Events box-->
+    <section class="px-2 md:px-10 w-full">
+      <h3 class="text-sm md:text-lg lg:text-xl text-center font-mono py-4">Event Details</h3>
+      <!-- Single event box -->
+      {% if event %}
+
+            <div class="w-full bg-white shadow-sm mt-2">
+              <!-- image div -->
+              <div class="">
+                {% if event.image %}
+                    <img class="rounded-lg p-1 w-full h-20" src="{{event.image.url}}" alt="image">
+                {% else %}
+                    <img class="rounded-lg p-1" src="{% static 'images/default.jpg' %}" alt="image">
+                {% endif %}
+              </div>
+
+              <div class="px-1 text-sm">
+                <h1 class="text-sm"><span class="text-gray-500">{{event.category}}</span> {{event.name}} </h1>
+                <p class="py-1">{{event.description}}</p>
+                <div class="flex">
+                  <div class="flex space-x-1 mt-2">
+                    <div>
+                      <i class="fa-solid fa-calendar-days text-white text-sm bg-yellow-400 rounded-full"></i>
+                    </div>
+                    <div>
+                      <h3 class="text-sm text-gray-500">Date</h3>
+                      <h2 class="text-sm">{{event.date}}</h2>
+                    </div>
+                  </div>
+                  <div class="flex space-x-1 mt-2">
+                    <div>
+                      <i class="fa-solid fa-clock text-white text-sm bg-yellow-400 rounded-full"></i>
+                    </div>
+                    <div>
+                      <h3 class="text-sm text-gray-500">Time</h3>
+                      <h2 class="text-sm">{{event.time|time:"g : i A"}}</h2>
+                    </div>
+                  </div>
+                  <div class="flex space-x-1 mt-2">
+                    <div>
+                      <i class="fa-solid fa-location-dot text-white text-sm bg-yellow-400 rounded-full"></i>
+                    </div>
+                    <div>
+                      <h3 class="text-md text-gray-500">Location</h3>
+                      <h2 class="text-sm">{{event.location}}</h2>
+                    </div>
+                  </div>
+                  <div class="mt-2 flex">
+                    <div class="mt-1">
+                      <i class="fa-regular fa-circle-user text-white text-sm bg-yellow-400 rounded-full"></i>
+                    </div>
+                    <div>
+                      <h3 class="text-sm text-gray-500">Total Participant's</h3>
+                      <h2 class="text-sm">{{event.participants.count}}</h2>
+                    </div>
+                  </div>
+                </div>
+                <div class="py-2">
+                  <form action="" method="">
+                    {% csrf_token %}
+                    <button class="bg-yellow-400 w-full py-2 rounded-md text-sm text-gray-900 focus:ring-4 focus:ring-yellow-200 hover:bg-yellow-500 hover:text-black" type="submit">Ticket</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+
+
+      {% else %}
+          <p class="text-red-600 py-2 text-sm">Warning: <span>Events Not Found!!!.......</span></p>
+      {% endif %}
+    </section>
+
+
+  {% comment %} <!-- Sample Event  -->
    <section class="bg-gray-100 mt-10 mb-32">
     <pre class="text-4xl text-center font-serif mt-10 mb-10">E V E N T     D E T A I L ' S</pre>
 
@@ -111,7 +179,7 @@
         </div>
       </div>
   
-  </section>
+  </section> {% endcomment %}
 
 </body>
 </html>
