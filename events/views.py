@@ -18,20 +18,6 @@ def is_organizer(user):
 
 # Create your views here.
 
-<<<<<<< HEAD
-
-def home(request):
-    base_query = Event.objects.prefetch_related('category').prefetch_related('participants')
-    events = base_query.filter(date=date.today())
-    
-    query = request.GET.get('q')
-    if query:
-        events = base_query.filter(name__icontains=query)
-
-        return render(request, 'home.html', {'events':events})
-
-
-=======
 # def search(request):
 #     base_query = Event.objects.prefetch_related('category').prefetch_related('participants')
 
@@ -52,7 +38,6 @@ def home(request):
     if query:
         events = base_query.filter(name__icontains=query)
 
->>>>>>> assignment-2
     return render(request, 'home.html', {'events':events})
 
 
@@ -84,40 +69,23 @@ def create_event(request):
         if form.is_valid():
             form.save()
 
-<<<<<<< HEAD
-            messages.success(request, "Successfully event created")
-            return redirect('dashboard')
- 
-=======
             messages.success(request, "Successfully Created Event")
             return redirect('dashboard')
 
->>>>>>> assignment-2
     return render(request, 'create_event.html', {'form':form})
 
 
 @login_required
 @permission_required('events.add_category', login_url='no-permission')
 def create_category(request):
-<<<<<<< HEAD
-
-    form = CategoryModelForm()
-    
-=======
     form = CategoryModelForm()
 
->>>>>>> assignment-2
     if request.method == 'POST':
         form = CategoryModelForm(request.POST)
 
         if form.is_valid():
             form.save()
-<<<<<<< HEAD
-
-            messages.success(request, "Successfully category created")
-=======
             messages.success(request, "Successfully Created Category")
->>>>>>> assignment-2
             return redirect('dashboard')
 
     return render(request, 'create_category.html', {'form':form})
@@ -128,7 +96,7 @@ def create_category(request):
 def create_participant(request):
     form = CustomSignUpModelForm()
 
-    form = ParticipantModelForm()
+    form = CustomSignUpModelForm()
 
     if request.method == 'POST':
         form = CustomSignUpModelForm(request.POST)
@@ -139,18 +107,10 @@ def create_participant(request):
             user.is_active = False
             user.save()
 
-<<<<<<< HEAD
-            messages.success(request, "Successfully participant created")
-            return redirect('dashboard')
-        
-
-    return render(request, 'create_participant.html', {'form':form})
-=======
             messages.success(request, "Successfully Created Participant")
             return redirect('dashboard')
     
     return render(request, 'signUp.html', {'form':form})
->>>>>>> assignment-2
 
 
 @login_required
@@ -171,11 +131,7 @@ def view_event(request):
     startDate = request.GET.get('a')
     endDate = request.GET.get('b')
 
-<<<<<<< HEAD
-    if startDate and endDate:    
-=======
     if startDate and endDate: 
->>>>>>> assignment-2
         events = Event.objects.prefetch_related('category').prefetch_related('participants').filter(date__gte=startDate).filter(date__lte=endDate)
         
     return render(request, 'view_event.html', {'events':events})
@@ -192,16 +148,10 @@ def dashboard(request):
         user_group_name = None
 
     type = request.GET.get('type','all')
-<<<<<<< HEAD
-    if type=='totalParticipant':
-        title = "T O T A L    P A R T I C I P A N T ' S"
-        participants = Participant.objects.filter(event__isnull=False).distinct()
-=======
     if type=='totalParticipants':
         title = "total participants"
         participants = User.objects.filter(rsvp_events__isnull=False).distinct()
         # participants = User.objects.all()
->>>>>>> assignment-2
         events = ""
         categorys = ""
         groups = ""
@@ -263,12 +213,8 @@ def dashboard(request):
     return render(request, 'dashboard.html', context)
 
 
-<<<<<<< HEAD
-
-=======
 @login_required
 @permission_required('events.delete_event', login_url='no-permission')
->>>>>>> assignment-2
 def delete_event(request, id):
     
     if request.method=='POST':
@@ -293,16 +239,6 @@ def delete_category(request, id):
         category = Category.objects.get(id=id)
         category.delete()
 
-<<<<<<< HEAD
-        messages.success(request, "Successfully category deleted.")
-        return redirect('dashboard')
-    
-    else:
-        messages.error(request, "Category was not delete, something went wrong!!")
-        return redirect('dashboard')
-    
-
-=======
         messages.success(request, "Category delete done.")
         return redirect('dashboard')
         
@@ -313,7 +249,6 @@ def delete_category(request, id):
 
 @login_required
 @user_passes_test(is_admin, login_url='no-permission')
->>>>>>> assignment-2
 def delete_participant(request, id):
 
     if request.method=='POST':
@@ -348,12 +283,8 @@ def update_event(request,id):
     return render(request, 'create_event.html', {'form':form})
 
 
-<<<<<<< HEAD
-
-=======
 @login_required
 @permission_required('events.change_category')
->>>>>>> assignment-2
 def update_category(request, id):
     
     category = Category.objects.get(id=id)
@@ -368,19 +299,12 @@ def update_category(request, id):
 
             messages.success(request, "Successfully Category Updated.")
             return redirect('dashboard')
-<<<<<<< HEAD
-=======
-
->>>>>>> assignment-2
 
     return render(request, 'create_category.html', {'form':form})
 
 
-<<<<<<< HEAD
-=======
 @login_required
 @user_passes_test(is_admin, login_url='no-permission')
->>>>>>> assignment-2
 def update_participant(request, id):
     
     participant = User.objects.get(id=id)
@@ -399,11 +323,7 @@ def update_participant(request, id):
     return render(request, 'create_participant.html', {'form':form})
 
 
-<<<<<<< HEAD
-
-=======
 @login_required(login_url='sign-in')
->>>>>>> assignment-2
 def details(request, id):
     event = Event.objects.get(id=id)
 
