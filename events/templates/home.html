@@ -5,10 +5,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Home</title>
-
   <link rel="stylesheet" href="{% static 'css/output.css' %}" />
   <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<<<<<<< HEAD
   <link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Italianno&display=swap" rel="stylesheet">
@@ -60,20 +60,72 @@
       <div class=" text-slate-900">
         <p class="font-mono py-1 text-center">FIND BEST EVENT ON HARMONI</p>
         <p class="font-mono text-sm">EVENT <span class="text-yellow-400">SEARCH</span></p>
+=======
+
+</head>
+
+<body class="bg-gray-100 font-sans">
+  
+  <header>
+    <!-- header -->
+    {% if request.user.is_authenticated %}
+      {% include "nav/log_nav.html" %}
+    {% else %}
+      {% include "nav/non_log_nav.html" %}
+    {% endif %}
+  </header>
+
+
+  <main>
+    <!-- hero -->
+    <section class="relative h-80 md:h-96 lg:h-96 w-full bg-cover bg-center" style="background-image: url('{% static 'images/bg-1-1.jpg' %}');">
+      <div class="flex items-center justify-center h-full">
+        <p class="text-white font-serif text-base md:text-2xl lg:text-4xl text-center">
+          Birthday Event Management Specialist<br><br>
+          <span class="text-sm md:text-base lg:text-2xl">Create, manage and organize events effortlessly. Perfect for organizers and participants.</span>
+        </p>
+      </div>
+      <div class="flex items-center justify-center -mt-14">
+        <a href="#" class="bg-yellow-500 text-white px-4 py-2 rounded-md text-base lg:text-lg focus:ring-4 focus:ring-yellow-200 hover:bg-yellow-400">Get Started</a>
+      </div>
+    </section>
+    
+    <!--Message-->
+    <section>
+      {% for message in messages %}
+        <p class="px-4 lg:px-20 sm:text-sm md:text-base bg-blue-50 text-center font-sans text-gray-800">{{message}}</p>
+      {% endfor %}
+    </section>
+
+     <!-- search  -->
+    <section class="px-4 lg:px-20 py-8 w-full bg-slate-200">
+      <div class="text-slate-900">
+        <p class="font-mono mb-4 text-center text-sm md:text-lg">FIND BEST EVENT ON HARMONI</p>
+        <p class="font-mono text-sm md:text-base">EVENT <span class="text-yellow-500 text-2xl">SEARCH</span></p>
+>>>>>>> assignment-2
       </div>
       <div class="text-slate-900">
         <!-- form  -->
         <form action="{% url 'home' %}" method="GET">
           <div>
+<<<<<<< HEAD
             <p class="font-mono">EVENT KEYWORD</p>
             <input class="w-full px-2 py-2 rounded-md font-mono" type="text" name="q" placeholder="type event name">
           </div>
           <div class="py-2">
             <button class="bg-yellow-400 font-mono w-full py-2 px-2 rounded-md focus:ring-4 focus:ring-yellow-200 hover:bg-yellow-500 " type="submit">SEARCH</button>
+=======
+            <p class="font-mono text-sm md:text-base">EVENT KEYWORD</p>
+            <input class="w-full px-2 py-2 text-sm md:text-base rounded-md font-mono focus:outline-none focus:ring-2 focus:ring-yellow-300" type="text" name="q" placeholder="type event name">
+          </div>
+          <div class="py-2 lg:py-4">
+            <button class="bg-yellow-400 font-mono text-sm md:text-base w-full py-2 px-2 rounded-md focus:ring-4 focus:ring-yellow-200 hover:bg-yellow-500 " type="submit">SEARCH</button>
+>>>>>>> assignment-2
           </div>
         </form>
       </div>
     </section>
+<<<<<<< HEAD
 
     <!-- Events box-->
     <section class="px-2 md:px-10 w-full">
@@ -171,6 +223,45 @@
         </div>
       </div>
     </section>
+=======
+    
+    <!-- Events box -->
+      <div class="px-4 lg:px-20 my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        
+        <!-- Single event box -->
+        {% if events %}
+          {% for event in events %}
+            <div class="bg-white rounded-lg shadow p-4">
+              {% if event.image %}
+                <img src="{{event.image.url}}" alt="Event" class="rounded-md mb-3 w-full h-40">
+              {% else %}
+                <img src="" alt="Event Image" class="rounded-md mb-3 w-full h-40">
+              {% endif %}
+                <h3 class="text-lg font-bold">{{event.name}}</h3>
+                <p class="text-sm text-gray-600">Category: {{event.category}}</p>
+                <p class="text-sm text-gray-600">Date: {{event.date}}</p>
+                <p class="text-sm text-gray-600">Time: {{event.time}}</p>
+                <p class="text-sm text-gray-600">Location: {{event.location}}</p>
+                <p class="text-sm text-gray-600">Participants: {{event.participants.all.count}}</p>
+                <p class="mt-2 text-gray-700 text-sm">{{event.description|truncatewords:10}}</p>
+                <div class="mt-2 flex space-x-2">
+                  <a href="{% url 'details' event.id %}" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">Details</a>
+                  <form action="{% url 'rsvp-system' event.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit" class="text-white bg-rose-500 hover:bg-rose-600 focus:ring-4 focus:ring-rose-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">Rsvp</button>            
+                  </form>
+                </div>
+            </div>
+          {% endfor %}
+        {% else %}
+            <h3 class="text-sm"><span class="text-red-600">Warning: </span>There are no events on today's date. You can search for events.</h3>
+        {% endif %} 
+      </div>
+  </main>
+
+  <footer>
+    {% include "footer/footer.html" %}
+>>>>>>> assignment-2
   </footer>
 
 </body>

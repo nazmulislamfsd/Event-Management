@@ -5,7 +5,7 @@ from django.contrib import admin
 from events.views import home
 
 urlpatterns = [
-    path("", home, name='home'),
+    path('', home, name='home'),
     path('admin/', admin.site.urls),
     path('event/', include('events.urls')),
 ]

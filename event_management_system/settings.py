@@ -1,6 +1,7 @@
 
 from pathlib import Path
 import dj_database_url
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -10,12 +11,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-%^&-nqf+)k&j0_ae-0r43dzyrrxh7h5f_#%$ju7x@b6b@1qb8_'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
+
 CSRF_TRUSTED_ORIGINS = [
     'https://*.onrender.com',
     'http://127.0.0.1:8000'
@@ -90,10 +92,28 @@ WSGI_APPLICATION = 'event_management_system.wsgi.application'
 #     }
 # }
 
+
+# for deploy on Render.com
+
+# DATABASES = {
+#     'default': dj_database_url.config(
+#         # Replace this value with your local database's connection string.
+#         default='postgresql://event_management_db_3juk_user:LRpLjsZXAoYI3BZk2QS7vTS8FezuW6WP@dpg-d0ipme3e5dus739rncc0-a.oregon-postgres.render.com/event_management_db_3juk',
+#         conn_max_age=600
+#     )
+# }
+
+
+# for deploy on Render.com
+
 DATABASES = {
     'default': dj_database_url.config(
         # Replace this value with your local database's connection string.
+<<<<<<< HEAD
         default='postgresql://event_management_db_p95q_user:6lYJDE1uFx44kfpF6ApVcootzDdGqovn@dpg-d1nm4n6mcj7s73fc1mpg-a.oregon-postgres.render.com/event_management_db_p95q',
+=======
+        default=config('DATABASE_URL'),
+>>>>>>> assignment-2
         conn_max_age=600
         
     )
@@ -106,11 +126,11 @@ DATABASES = {
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'event_management_system',
-#         'USER': 'postgres',
-#         'PASSWORD': 'password',
-#         'HOST': 'localhost',
-#         'PORT': '5432'
+#         'NAME': config('DB_NAME', default=''),
+#         'USER': config('DB_USER', default=''),
+#         'PASSWORD': config('DB_PASSWORD', default=''),
+#         'HOST': config('HOST', default='localhost'),
+#         'PORT': config('PORT', default='')
 #     }
 # }
 
@@ -157,3 +177,18 @@ STATICFILES_DIRS = [ BASE_DIR / "static" ]
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# email configuration
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = config('EMAIL_HOST')
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', cast=bool)
+EMAIL_PORT = config('EMAIL_PORT')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')
+
+FRONTEND_URL = 'http://127.0.0.1:8000'
+
+LOGIN_URL = 'sign-in'
+
+

@@ -1,25 +1,33 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<<<<<<< HEAD
     <title>Event</title>
+=======
+    <title>Evnet-Details</title>
+>>>>>>> assignment-2
     <link rel="stylesheet" href="{% static 'css/output.css' %}" />
     <!-- Font Awesome CDN -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
+<<<<<<< HEAD
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Italianno&display=swap" rel="stylesheet">
+=======
+  </head>
+>>>>>>> assignment-2
 
-		<style>
-			body{
-				font-family: "Inter",sans-serif;
-        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-			}
-		</style>
+  <body class="bg-gray-100">
+    <!-- Header -->
+    <header>
+      {% include "nav/log_nav.html" %}
+    </header>
 
+<<<<<<< HEAD
 </head>
 
 <body class="bg-gray-100">
@@ -122,64 +130,51 @@
 
      <div class="flex items-center justify-center mb-5">
         <div class="bg-white flex gap-2 w-11/12 shadow-md border">
+=======
+    <!-- Main -->
+    <main>
+      <section class="px-4 lg:px-20 py-8">
+        <div class="">
+>>>>>>> assignment-2
           <div>
             {% if event.image %}
-                <img class="rounded-lg p-1" src="{{event.image.url}}" alt="image">
+                <img class="w-full md:max-w-screen-sm lg:max-w-screen-md rounded-lg" src="{{event.image.url}}" alt="image">
             {% else %}
-                <img class="rounded-lg p-1" src="static/images/default.jpg" alt="image">
+                <img class="w-full rounded-lg" src="static/images/default.jpg" alt="image">
             {% endif %}
             
         </div>
-          <div class=" w-full">
-            <h1 class="text-2xl"><span class="text-gray-500">{{event.category}}</span> {{event.name}} </h1>
-            <p class="mt-2">{{event.description}}</p>
-            <div class="flex gap-7 mt-5">
-              <div class="flex gap-2 mt-2">
-                <div class="mt-1">
-                  <i class="fa-solid fa-location-dot p-3 text-white text-xl bg-yellow-400 rounded-full"></i>
-                </div>
-                <div>
-                  <h3 class="text-md text-gray-500">Event Date</h3>
-                  <h2 class="text-lg font-semibold">{{event.date}}</h2>
-                </div>
-              </div>
-              <div class="flex gap-2 mt-2">
-                <div class="mt-1">
-                  <i class="fa-regular fa-circle-user p-3 text-white text-xl bg-yellow-400 rounded-full"></i>
-                </div>
-                <div>
-                  <h3 class="text-md text-gray-500">Event Time</h3>
-                  <h2 class="text-lg font-semibold">{{event.time|time:"g : i A"}}</h2>
-                </div>
-              </div>
-              <div class="flex gap-2 mt-2">
-                <div class="mt-1">
-                  <i class="fa-regular fa-circle-user p-3 text-white text-xl bg-yellow-400 rounded-full"></i>
-                </div>
-                <div>
-                  <h3 class="text-md text-gray-500">Event Location</h3>
-                  <h2 class="text-lg font-semibold">{{event.location}}</h2>
-                </div>
-              </div>
-              <div class="flex gap-2 mt-2">
-                <div class="mt-1">
-                  <i class="fa-regular fa-circle-user p-3 text-white text-xl bg-yellow-400 rounded-full"></i>
-                </div>
-                <div>
-                  <h3 class="text-md text-gray-500">Total Participant's</h3>
-                  <h2 class="text-lg font-semibold">{{event.participants.count}}</h2>
-                </div>
-              </div>
-              
-            </div>
-            <div class="mt-3">
-              <button class="bg-gray-100 border w-full mb-2 py-2 rounded-md text-lg text-gray-900 hover:bg-yellow-400 hover:text-black" type="submit">Ticket</button>
-            </div>
+        <div>
+          <h1 class="text-xl md:text-2xl">{{event.name}}</h1>
+          <p class="py-2 text-sm md:text-base text-gray-800">{{event.description}}</p>
+          <div class="text-sm md:text-base">
+            <p>Category: {{event.category}}</p>
+            <p>Date: {{event.date}}</p>
+            <p>Time: {{event.time}}</p>
+            <p>Location: {{event.location}}</p>
+            <p>Total Participants: {{event.participants.all.count}}</p>
+          </div>
+          <div class="mt-3">
+            <form action="{% url 'rsvp-system' event.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit" class="bg-blue-100 border mb-2 py-1 w-full rounded-md text-lg text-slate-900 hover:bg-sky-500 hover:text-white">Rsvp</button>
+            </form>
           </div>
         </div>
+<<<<<<< HEAD
       </div>
   
   </section> {% endcomment %}
+=======
+      </section>
+    </main>
 
-</body>
+    <!-- Footer -->
+    <footer>
+      {% include "footer/footer.html" %}
+    </footer>
+
+  </body>
+>>>>>>> assignment-2
+
 </html>

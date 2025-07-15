@@ -1,14 +1,26 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard</title>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{{user_group_name}} Dashboard</title>
+		<link rel="stylesheet" href="{% static 'css/output.css' %}" />
+	</head>
+	<body class="bg-gray-100 font-sans">
+		<!-- header  -->
+		<header>
+			{% include "nav/nav_dashboard.html" %}
+		</header>
 
-  <!-- Tailwind css configure link  -->
-  <link rel="stylesheet" href="{% static 'css/output.css' %}" />
+		<!--Message-->
+		<section class="px-4 lg:px-20 flex items-center justify-center">
+			{% for message in messages %}
+			<p class="text-sm lg:text-lg font-sans text-gray-800">{{message}}</p>
+			{% endfor %}
+		</section>
 
+<<<<<<< HEAD
   <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -265,3 +277,17 @@
 
 </body>
 </html>
+=======
+		<main>
+			{% if user_group_name == "Admin" %}
+				{% include "admin_dashboard.html" %}
+			{% elif user_group_name == "Organizer" %}
+				{% include "organizer_dashboard.html" %}
+			{% elif user_group_name == "Participant" %}
+				{% include "participant_dashboard.html" %}
+			{% endif %}
+		</main>
+		
+	</body>
+</html> 
+>>>>>>> assignment-2
