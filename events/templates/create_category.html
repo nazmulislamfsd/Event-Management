@@ -8,13 +8,15 @@
     <link rel="stylesheet" href="{% static 'css/output.css' %}">
 </head>
 <body class="bg-blue-100">
-    <div class="py-20 text-center">
-        <h1 class="text-center text-3xl font-serif">Category Form</h1>
-        <form method="POST">
+
+    <div class="text-center">
+        <h1 class="py-10 text-center text-xl lg:text-2xl font-serif">Category Form</h1>
+        <form method="POST" class="text-sm lg:text-base">
             {% csrf_token %}
-            {{form}}
-            <button class="ml-40 bg-green-500 w-1/2 py-2 rounded-lg mt-4 text-lg text-white font-serif hover:bg-green-600" type="submit">Submit</button>
+            {{form.as_p}}
+            <button class="ml-40 bg-green-500 w-1/2 py-2 rounded-lg mt-4 text-sm lg:text-base text-white font-serif hover:bg-green-600" type="submit">Submit</button>
         </form>
     </div>
+
 </body>
 </html>

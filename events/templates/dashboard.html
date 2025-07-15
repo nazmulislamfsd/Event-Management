@@ -14,13 +14,13 @@
 		</header>
 
 		<!--Message-->
-		<section class="px-20 py-1">
+		<section class="px-4 lg:px-20 flex items-center justify-center">
 			{% for message in messages %}
-			<p class="font-sans text-gray-800">{{message}}</p>
+			<p class="text-sm lg:text-lg font-sans text-gray-800">{{message}}</p>
 			{% endfor %}
 		</section>
 
-		<main class="px-20">
+		<main>
 			{% if user_group_name == "Admin" %}
 				{% include "admin_dashboard.html" %}
 			{% elif user_group_name == "Organizer" %}

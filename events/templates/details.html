@@ -19,21 +19,20 @@
 
     <!-- Main -->
     <main>
-      <div class="my-10 px-20 w-full flex">
-        <!-- details event card  -->
-        <div class="p-2">
+      <section class="px-4 lg:px-20 py-8">
+        <div class="">
           <div>
             {% if event.image %}
-                <img class="rounded-lg p-1 w-1/2" src="{{event.image.url}}" alt="image">
+                <img class="w-full md:max-w-screen-sm lg:max-w-screen-md rounded-lg" src="{{event.image.url}}" alt="image">
             {% else %}
-                <img class="rounded-lg p-1 w-1/2" src="static/images/default.jpg" alt="image">
+                <img class="w-full rounded-lg" src="static/images/default.jpg" alt="image">
             {% endif %}
             
         </div>
         <div>
-          <h1 class="text-2xl">{{event.name}}</h1>
-          <p class="mt-2 text-gray-800">{{event.description}}</p>
-          <div class="flex gap-6 py-2">
+          <h1 class="text-xl md:text-2xl">{{event.name}}</h1>
+          <p class="py-2 text-sm md:text-base text-gray-800">{{event.description}}</p>
+          <div class="text-sm md:text-base">
             <p>Category: {{event.category}}</p>
             <p>Date: {{event.date}}</p>
             <p>Time: {{event.time}}</p>
@@ -47,7 +46,7 @@
             </form>
           </div>
         </div>
-      </div>
+      </section>
     </main>
 
     <!-- Footer -->

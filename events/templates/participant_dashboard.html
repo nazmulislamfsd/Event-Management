@@ -5,10 +5,10 @@
     {% endfor %}
 </div> {% endcomment %}
 
-<h2 class="text-lg font-sans text-gray-700 font-semibold">Your all rsvp events</h2>
+<h2 class="text-lg px-4 mt-5 lg:px-20 font-sans text-gray-700 font-semibold">Your all rsvp events</h2>
 
 <!-- Events box -->
-<div class="mt-5 mb-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+<div class="my-5 px-4 lg:px-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
     <!-- Single event box -->
     {% if request.user.rsvp_events.all %}
         {% for event in request.user.rsvp_events.all %}

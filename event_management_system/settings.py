@@ -90,6 +90,9 @@ WSGI_APPLICATION = 'event_management_system.wsgi.application'
 #     }
 # }
 
+
+# for deploy on Render.com
+
 # DATABASES = {
 #     'default': dj_database_url.config(
 #         # Replace this value with your local database's connection string.
@@ -98,19 +101,29 @@ WSGI_APPLICATION = 'event_management_system.wsgi.application'
 #     )
 # }
 
-# for postgreSQL
 
+# for deploy on Render.com
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config('DB_NAME', default=''),
-        'USER': config('DB_USER', default=''),
-        'PASSWORD': config('DB_PASSWORD', default=''),
-        'HOST': config('HOST', default='localhost'),
-        'PORT': config('PORT', default='')
-    }
+    'default': dj_database_url.config(
+        # Replace this value with your local database's connection string.
+        default=config('DATABASE_URL'),
+        conn_max_age=600
+    )
 }
+
+# for postgreSQL
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': config('DB_NAME', default=''),
+#         'USER': config('DB_USER', default=''),
+#         'PASSWORD': config('DB_PASSWORD', default=''),
+#         'HOST': config('HOST', default='localhost'),
+#         'PORT': config('PORT', default='')
+#     }
+# }
 
 
 # Password validation

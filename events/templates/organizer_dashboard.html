@@ -1,6 +1,6 @@
 
 <!-- Cards section -->
-<section class="py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<section class="py-10 px-4 lg:px-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
   <!-- Card  -->
   <a href="{% url 'dashboard' %}">
     <div class="bg-white p-4 rounded-xl shadow">
@@ -15,39 +15,37 @@
     </div>
   </a>
   <div class="flex items-center justify-center bg-blue-100 rounded-xl shadow">
-    <a href="{% url 'create-event' %}" class="px-20 py-5">+ Create Event</a>
+    <a href="{% url 'create-event' %}" class="px-10 py-5">+ Create Event</a>
   </div>
   <div class="flex items-center justify-center bg-blue-100 rounded-xl shadow">
-    <a href="{% url 'create-category' %}" class="px-16 py-5">+ Create Category</a>
+    <a href="{% url 'create-category' %}" class="px-10 py-5">+ Create Category</a>
   </div>	
 </section>
 
 
 {% if title == "total categorys" %}
-  <pre class="text-4xl text-center font-serif ">{{title|capfirst}}</pre>
+  <pre class="text-xl lg:text-2xl text-center font-serif ">{{title|capfirst}}</pre>
   <!--Create Button -->
-  <div class="py-5">
-    <a href="{% url 'create-category' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow">+ Create Category</a>
+  <div class="py-5 px-4 lg:px-20">
+    <a href="{% url 'create-category' %}" class="text-sm lg:text-base bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow">+ Create Category</a>
   </div>
   <!-- Category Table -->
-  <div class="bg-white rounded-xl shadow overflow-auto">
-    <table class="w-full text-sm">
+  <div class="px-4 lg:px-20">
+    <table class="w-full text-sm bg-white rounded-xl shadow overflow-auto">
       <thead>
         <tr class="bg-gray-200 text-gray-600 text-left">
-          <th class="p-4">Serial</th>
-          <th class="p-4">Category ID</th>
-          <th class="p-4">Category Name</th>
-          <th class="p-4">Action</th>
+          <th class="px-2 py-4">Serial</th>
+          <th class="px-2 py-4">Name</th>
+          <th class="px-2 py-4">Action</th>
         </tr>
       </thead>
       <tbody>
         {% for category in categorys %}
           <tr class="border-t hover:bg-gray-50">
-            <td class="p-4">{{forloop.counter}}</td>
-            <td class="p-4">{{category.id}}</td>
-            <td class="p-4">{{category.name}}</td>
-            <td class="p-4 space-x-2">
-              <div class="flex space-x-4">
+            <td class="px-2 py-4">{{forloop.counter}}</td>
+            <td class="px-2 py-4">{{category.name}}</td>
+            <td class="px-2 py-4">
+              <div class="flex space-x-1">
                 <a href="{% url 'update-category' category.id %}" class="bg-green-600 px-3 py-1 text-white rounded-full hover:bg-green-700">Edit</a>
                 <form action="{% url 'delete-category' category.id %}" method='POST'>
                   {% csrf_token %}
@@ -63,12 +61,12 @@
 
 {% else %}
 <!--Event Create Button -->
-  <div class="">
-    <a href="{% url 'create-event' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow">+ Create Event</a>
+  <div class="px-4 lg:px-20">
+    <a href="{% url 'create-event' %}" class="text-sm lg:text-base bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow">+ Create Event</a>
   </div>
 
   <!-- Events box -->
-  <div class="mt-5 mb-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div class="px-4 lg:px-20 py-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
     <!-- Single event box -->
     {% if events %}
       {% for event in events %}
@@ -82,12 +80,13 @@
             <p class="text-sm text-gray-600">Date: {{event.date}}</p>
             <p class="text-sm text-gray-600">Time: {{event.time}}</p>
             <p class="text-sm text-gray-600">Location: {{event.location}}</p>
+            <p class="text-sm text-gray-600">Participants: {{event.participants.all.count}}</p>
             <p class="mt-2 text-gray-700 text-sm">{{event.description|truncatewords:15}}</p>
-            <div class="mt-2 flex">
-              <a href="{% url 'update-event' event.id %}" class="text-white bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Edit</a>
+            <div class="mt-2 flex space-x-2">
+              <a href="{% url 'update-event' event.id %}" class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">Edit</a>
               <form action="{% url 'delete-event' event.id %}" method="POST">
                 {% csrf_token %}
-                <button type="submit" class="text-white bg-gradient-to-r from-red-500 via-red-600 to-red-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Delete</button>
+                <button type="submit" class="text-white bg-rose-500 hover:bg-rose-600 focus:ring-4 focus:ring-rose-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center mb-2">Delete</button>
               </form>
             </div>
         </div>

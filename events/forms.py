@@ -14,7 +14,7 @@ class StyledFormMixin:
         super().__init__(*arg, **kwarg)
         self.apply_styled_widgets()
 
-    default_classes = "w-1/2 p-3 mt-3 rounded-lg shadow-sm focus:outline-none"
+    default_classes = "w-1/2 px-4 py-3 mt-3 rounded-lg shadow-sm focus:outline-none"
 
     def apply_styled_widgets(self):
         for field_name, field in self.fields.items():

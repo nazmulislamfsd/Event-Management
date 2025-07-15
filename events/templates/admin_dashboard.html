@@ -1,5 +1,5 @@
 <!-- Cards section -->
-    <div class="py-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6">
+    <div class="py-10 px-4 lg:px-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 lg:gap-4">
        <!-- Card  -->
         <a href="{% url 'dashboard' %}?type=totalParticipants">
             <div class="bg-white p-4 rounded-xl shadow">
@@ -41,36 +41,68 @@
 
 
 {% if title == "total participants" %}
-    <pre class="text-4xl text-center font-serif">{{title|capfirst}}</pre>
+    <pre class="text-lg md:text-2xl text-center font-serif">{{title|capfirst}}</pre>
     <!--Create Button -->
-    <div class="py-5">
-        <a href="{% url 'create-participant' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow">+ Create Participant</a>
+    <div class="py-5 px-4 lg:px-20">
+        <a href="{% url 'create-participant' %}" class="text-sm md:text-base bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow">+ Create Participant</a>
     </div>
 
+    {% comment %} <!-- Table -->
+      <div class="rounded-xl shadow px-2 md:px-10 lg:px-20 mb-4">
+          <table class="text-sm md:text-base w-full">
+              <thead>
+                  <tr class="bg-gray-200 text-gray-600 text-left">
+                    <th class="p-2">Sr No</th>
+                    <th class="p-2">Name</th>
+                    <th class="hidden md:table-cell md:p-2">Email</th>
+                    <th class="p-2">Action</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for participant in participants %}
+                      <tr class="bg-white hover:bg-gray-50">
+                          <td class="p-4">{{forloop.counter}}</td>
+                          <td class="p-4">{{participant.name}}</td>
+                          <td class="hidden md:table-cell md:p-4">{{participant.email}}</td>
+                          <td class="p-4 space-y-2">
+                              <form action="{% url "delete-participant" participant.id %}" method="POST">
+                                {% csrf_token %}
+                                <button class="bg-red-500 px-1 text-white rounded-sm font-mono hover:text-white hover:bg-red-600" type="submit">Delete</button>
+                              </form>
+                              <button class="bg-green-500 px-1 text-white rounded-sm font-mono hover:text-white hover:bg-green-600"><a href="{% url "update-participant" participant.id %}">Edit</a></button>
+                          </td>
+                      </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+      </div> {% endcomment %}
+
     <!-- Table -->
-    <div class="bg-white rounded-xl shadow overflow-auto">
-        <table class="w-full text-sm">
+    <div class="rounded-xl shadow px-4 lg:px-20 mb-4">
+        <table class="text-sm w-full">
             <thead>
                 <tr class="bg-gray-200 text-gray-600 text-left">
-                    <th class="p-4">Serial</th>
-                    <th class="p-4">User</th>
-                    <th class="p-4">Email</th>
-                    <th class="p-4">Role</th>
-                    <th class="p-4">Action</th>
+                    <th class="px-2 py-4">Sr</th>
+                    <th class="px-2 py-4">User</th>
+                    <th class="hidden md:block px-2 py-4">Email</th>
+                    <th class="px-2 py-4">Role</th>
+                    <th class="px-2 py-4">Action</th>
                 </tr>
             </thead>
             <tbody>
                 {% for participant in participants %}
-                    <tr class="border-t border-gray-100 hover:bg-gray-50">
-                        <td class="p-4">{{forloop.counter}}</td>
-                        <td class="p-4">{{participant.first_name}} {{participant.last_name}}</td>
-                        <td class="p-4">{{participant.email}}</td>
-                        <td class="p-4 text-green-600">{{participant.groups.first|default:"No Role"}}</td>
-                        <td class="p-4 flex space-x-2">
-                            <a href="{% url 'change-role' participant.id %}" class="bg-green-600 px-3 py-1 text-white rounded-full hover:bg-green-700">Change Role</a>
+                    <tr class="text-sm border-t border-gray-100 hover:bg-gray-50">
+                        <td class="px-2 py-2">{{forloop.counter}}</td>
+                        <td class="px-2">{{participant.username}}</td>
+                        <td class="hidden md:block px-2 py-2">{{participant.email}}</td>
+                        <td class="px-2 py-2 text-green-600">{{participant.groups.first|default:"No Role"}}</td>
+                        <td class="px-2 py-2 flex flex-col md:flex-row gap-2">
+                            <form action="{% url 'change-role' participant.id %}">
+                                <button class="bg-green-600 px-3 py-1 text-white rounded-full hover:bg-green-700">Change Role</button>
+                            </form>
                             <form action="{% url 'delete-participant' participant.id %}" method='POST'>
-                            {% csrf_token %}
-                            <button type="submit" class="bg-red-600 px-3 py-1 text-white rounded-full hover:bg-red-700">Delete</button>
+                                {% csrf_token %}
+                                <button type="submit" class="bg-red-600 px-3 py-1 text-white rounded-full hover:bg-red-700">Delete</button>
                             </form>
                         </td>
                     </tr>
@@ -81,29 +113,27 @@
 
 
 {% elif title == "total categorys" %}
-    <pre class="text-4xl text-center font-serif">{{title|capfirst}}</pre>
+    <pre class="text-lg md:text-2xl text-center font-serif">{{title|capfirst}}</pre>
     <!--Create Button -->
-    <div class="py-5">
-        <a href="{% url 'create-category' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow">+ Create Category</a>
+    <div class="px-4 lg:px-20 py-5">
+        <a href="{% url 'create-category' %}" class="text-sm md:text-base bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow">+ Create Category</a>
     </div>
     <!-- Category Table -->
-    <div class="bg-white rounded-xl shadow overflow-auto">
-        <table class="w-full text-sm">
+    <div class="rounded-xl shadow px-4 lg:px-20 my-4">
+        <table class="text-sm w-full">
             <thead>
                 <tr class="bg-gray-200 text-gray-600 text-left">
-                    <th class="p-4">Serial</th>
-                    <th class="p-4">Category ID</th>
-                    <th class="p-4">Category Name</th>
-                    <th class="p-4">Action</th>
+                    <th class="px-2 py-4">Serial</th>
+                    <th class="px-2 py-4">Name</th>
+                    <th class="px-2 py-4">Action</th>
                 </tr>
             </thead>
             <tbody>
                 {% for category in categorys %}
                     <tr class="border-t border-gray-100 hover:bg-gray-50">
-                        <td class="p-4">{{forloop.counter}}</td>
-                        <td class="p-4">{{category.id}}</td>
-                        <td class="p-4">{{category.name}}</td>
-                        <td class="p-4 space-x-2 flex">
+                        <td class="px-2 py-4">{{forloop.counter}}</td>
+                        <td class="px-2 py-4">{{category.name}}</td>
+                        <td class="px-2 py-4 space-x-1 flex">
                             <a href="{% url 'update-category' category.id %}" class="bg-green-600 px-3 py-1 text-white rounded-full hover:bg-green-700">Edit</a>
                             <form action="{% url 'delete-category' category.id %}" method='POST'>
                                 {% csrf_token %}
@@ -117,21 +147,21 @@
     </div>
 
 {% elif title == "total groups" %}
-    <pre class="text-4xl text-center font-serif">{{title|capfirst}}</pre>
+    <pre class="text-2xl text-center font-serif">{{title|capfirst}}</pre>
     <!--Event Create Button -->
-    <div class="py-5">
-        <a href="{% url 'create-group' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow">+ Create Group</a>
+    <div class="mt-5 px-4 lg:px-20">
+        <a href="{% url 'create-group' %}" class="text-sm md:text-base bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow">+ Create Group</a>
     </div>
     <!-- Group Table -->
-    <div class="mb-5">
-        <h2 class="text-2xl font-bold mb-4">Groups and Permissions</h2>
-        <div class="overflow-x-auto">
-            <table class="table-auto w-full border-collapse border border-gray-300">
+    <div class="rounded-xl shadow px-4 lg:px-20">
+        <h2 class="text-lg my-5">Groups and Permissions</h2>
+        <div class="">
+            <table class="text-sm md:text-base w-full">
                 <thead>
                     <tr class="bg-gray-100">
-                        <th class="border border-gray-300 px-4 py-2">Group Name</th>
-                        <th class="border border-gray-300 px-4 py-2">Permissions</th>
-                        <th class="border border-gray-300 px-4 py-2">Action</th>
+                        <th class="border border-gray-300">Name</th>
+                        <th class="border border-gray-300">Permissions</th>
+                        <th class="border border-gray-300">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -141,7 +171,7 @@
                             <td class="border border-gray-300 px-4 py-2 font-medium">
                                 {{group.name}}
                             </td>
-                            <td class="border border-gray-300 px-4 py-2">
+                            <td class="border border-gray-300">
                                 <ul class="list-disc list-inside">
                                     {% for permission in group.permissions.all %}
                                         <li>{{permission.name}} || {{permission.codename}}</li>
@@ -166,13 +196,14 @@
 
 {% comment %} show event  {% endcomment %}
 {% else %}
-    <!--Event Create Button -->
-    <div class="">
-        <a href="{% url 'create-event' %}" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow">+ Create Event</a>
+    <pre class="text-lg md:text-2xl text-center font-serif">{{title|capfirst}}</pre>
+    <!--Event Button -->
+    <div class="px-4 lg:px-20 py-5">
+        <a href="{% url 'create-event' %}" class="text-sm md:text-base bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-full shadow">+ Create Event</a>
     </div>
-    <!-- Events Grid -->
-    <div class="mt-5 mb-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        <!-- Event Card -->
+    <!-- Events box -->
+    <div class="px-4 lg:px-20 my-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+        <!-- Event box -->
         {% if events %}
             {% for event in events %}
                 <div class="bg-white rounded-lg shadow p-4">

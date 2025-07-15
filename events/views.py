@@ -18,16 +18,16 @@ def is_organizer(user):
 
 # Create your views here.
 
-def search(request):
-    base_query = Event.objects.prefetch_related('category').prefetch_related('participants')
+# def search(request):
+#     base_query = Event.objects.prefetch_related('category').prefetch_related('participants')
 
-    query = request.GET.get('q')
+#     query = request.GET.get('q')
 
-    if query:
-        events = base_query.filter(name__icontains=query)
-        return render(request, 'search.html', {'events':events})
-    else:
-        return redirect('home')
+#     if query:
+#         events = base_query.filter(name__icontains=query)
+#         return render(request, 'search.html', {'events':events})
+#     else:
+#         return redirect('home')
 
 def home(request):
     base_query = Event.objects.prefetch_related('category').prefetch_related('participants')
@@ -208,20 +208,6 @@ def dashboard(request):
 
     return render(request, 'dashboard.html', context)
 
-
-@login_required
-@permission_required('events.view_category', login_url='no-permission')
-def view_category(request):
-    categorys = Category.objects.all()
-
-    return render(request, 'view_category.html', {'categorys':categorys})
-
-
-# def view_participant(request):
-
-#     participants = User.objects.prefetch_related('event').all()
-
-#     return render(request, 'view_participant.html', {'participants':participants})
 
 @login_required
 @permission_required('events.delete_event', login_url='no-permission')

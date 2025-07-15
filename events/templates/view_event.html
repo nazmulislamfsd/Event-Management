@@ -12,7 +12,13 @@
 </head>
 
 <body class="bg-gray-100 ">
+
   <header>
+    {% include "nav/log_nav.html" %}
+  </header>
+
+
+  {% comment %} <header>
     <!-- navbar -->
     <section class="bg-white">
       <div class="flex justify-between px-20 py-3">
@@ -35,16 +41,16 @@
       </div>
       <hr>
     </section>
-  </header>
+  </header> {% endcomment %}
 
   <main>
     <!-- hero -->
-    <section class="h-96 w-full bg-cover bg-center" style="background-image: url('{% static 'images/hero2.jpg' %}');">
+    <section class="relative h-80 md:h-96 lg:96 bg-cover bg-center" style="background-image: url('{% static 'images/hero2.jpg' %}');">
 
       <div class="flex items-center justify-center h-full px-20">
-        <p class="text-white font-serif text-5xl text-center">
+        <p class="text-white font-serif text-base md:text-2xl lg:text-4xl text-center">
           A good line to describe the motive of a happy marriage life is:<br>
-          <span class="font-serif text-2xl">"To build a partnership of love, growth, and mutual support, navigating life's journey together with joy, understanding, and unwavering commitment." </span>
+          <span class="text-sm md:text-base lg:text-2xl">"To build a partnership of love, growth, and mutual support, navigating life's journey together with joy, understanding, and unwavering commitment." </span>
         </p>
       </div>
 
@@ -53,11 +59,42 @@
     <!--Message-->
     <section>
       {% for message in messages %}
-        <p class="bg-blue-100 text-center border border-white font-sans text-gray-800">{{message}}</p>
+        <p class="px-4 lg:px-20 sm:text-sm md:text-base bg-blue-50 text-center font-sans text-gray-800">{{message}}</p>
       {% endfor %}
     </section>
 
+
     <!-- search  -->
+    <section class="bg-slate-200 py-10">
+      <h1 class="text-center font-mono text-sm md:text-lg py-2">FIND BEST EVENT ON HARMONI | <span class="text-rose-600">FILTER</span></h1>
+      <div class="px-4 lg:px-20 md:px-10 mb-3">
+        <div>
+          <h1 class="text-sm font-mono">Category</h1>
+          <form action="{% url 'view-event' %}" method="get">
+            <input class="px-2 py-1 rounded-sm font-mono focus:outline-none focus:ring-2 focus:ring-yellow-200" name='q' type="text" placeholder="Type category">
+            <button class="bg-yellow-400 px-2 py-1 rounded-sm font-mono focus:ring-4 focus:ring-yellow-200 hover:bg-yellow-500" type="submit">FILTER</button>
+          </form>
+        </div>
+        <div class="py-4">
+          <form action="{% url 'view-event' %}" method="get">
+            <div class="w-full flex gap-1 justify-between md:justify-around">
+              <div class="">
+                <label class="text-sm font-mono" for="">Start Date</label><br>
+                <input class="w-36 lg:w-full text-sm font-mono px-2 py-1 rounded-sm focus:outline-none focus:ring-4 focus:ring-yellow-200" name="a" type="text" placeholder="YYYY-MM-DD">
+              </div>
+              <div class="">
+                <label class="text-sm font-mono" for="">End Date</label><br>
+                <input class="w-32 lg:w-full text-sm font-mono px-2 py-1 rounded-sm focus:outline-none focus:ring-4 focus:ring-yellow-200" name="b" type="text" placeholder="YYYY-MM-DD">
+              </div>
+            </div>
+            <button class="bg-yellow-400 w-full mt-3 md:mt-4 lg:mt-8 px-2 py-1 rounded-sm font-mono focus:ring-4 focus:ring-yellow-200 hover:bg-yellow-500" type="submit">FILTER</button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+
+    {% comment %} <!-- search  -->
     <section class="px-20 mb-10 h-60 bg-blue-100">
       <h1 class="text-center py-10 font-thin text-2xl">Find The Best Event On Harmoni</h1>
       <div class="grid grid-cols-3">
@@ -87,10 +124,10 @@
           </form>
         </div>
       </div>
-    </section>
+    </section> {% endcomment %}
 
     <!-- Events box -->
-    <div class="px-20 mt-5 mb-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div class="px-4 lg:px-20 my-5 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
       <!-- Single event box -->
       {% for event in events %}
         <div class="bg-white rounded-lg shadow p-4">
@@ -100,6 +137,7 @@
             <img src="" alt="Event Image" class="rounded-md mb-3 w-full h-40">
           {% endif %}
             <h3 class="text-lg font-bold">{{event.name}}</h3>
+            <p class="text-sm text-gray-600">Category: {{event.category}}</p>
             <p class="text-sm text-gray-600">Date: {{event.date}}</p>
             <p class="text-sm text-gray-600">Time: {{event.time}}</p>
             <p class="text-sm text-gray-600">Location: {{event.location}}</p>

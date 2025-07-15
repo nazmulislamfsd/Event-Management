@@ -22,49 +22,50 @@
     {% endif %}
   </header>
 
+
   <main>
     <!-- hero -->
-    <section class="h-96 w-full bg-cover bg-center" style="background-image: url('{% static 'images/bg-1-1.jpg' %}');">
+    <section class="relative h-80 md:h-96 lg:h-96 w-full bg-cover bg-center" style="background-image: url('{% static 'images/bg-1-1.jpg' %}');">
       <div class="flex items-center justify-center h-full">
-        <p class="text-white font-serif text-5xl text-center">
-          Simplify Your Event Management<br>
-          <span class="font-serif text-2xl">Create, manage and organize events effortlessly. Perfect for organizers and participants.</span>
+        <p class="text-white font-serif text-base md:text-2xl lg:text-4xl text-center">
+          Birthday Event Management Specialist<br><br>
+          <span class="text-sm md:text-base lg:text-2xl">Create, manage and organize events effortlessly. Perfect for organizers and participants.</span>
         </p>
       </div>
-      <div class="flex items-center justify-center -mt-20">
-        <a href="#" class="bg-yellow-500 text-white px-6 py-3 rounded-md text-lg hover:bg-yellow-400">Get Started</a>
+      <div class="flex items-center justify-center -mt-14">
+        <a href="#" class="bg-yellow-500 text-white px-4 py-2 rounded-md text-base lg:text-lg focus:ring-4 focus:ring-yellow-200 hover:bg-yellow-400">Get Started</a>
       </div>
     </section>
     
     <!--Message-->
     <section>
       {% for message in messages %}
-        <p class="bg-blue-100 text-center border border-white font-sans text-gray-800">{{message}}</p>
+        <p class="px-4 lg:px-20 sm:text-sm md:text-base bg-blue-50 text-center font-sans text-gray-800">{{message}}</p>
       {% endfor %}
     </section>
-    
-    <!-- search  -->
-    <section class="flex items-center justify-between h-60 bg-blue-100">
-      <div class="text-black ml-20">
-        <p class="font-thin">FIND BEST EVENT ON HARMONI</p>
-        <h1 class="text-4xl mt-2">EVENT <span class="text-blue-400">SEARCH</span></h1>
+
+     <!-- search  -->
+    <section class="px-4 lg:px-20 py-8 w-full bg-slate-200">
+      <div class="text-slate-900">
+        <p class="font-mono mb-4 text-center text-sm md:text-lg">FIND BEST EVENT ON HARMONI</p>
+        <p class="font-mono text-sm md:text-base">EVENT <span class="text-yellow-500 text-2xl">SEARCH</span></p>
       </div>
-      <div class="text-white mr-20">
+      <div class="text-slate-900">
         <!-- form  -->
-        <form class="flex gap-2 border-1 border-blue-600" action="{% url 'home' %}" method="GET">
+        <form action="{% url 'home' %}" method="GET">
           <div>
-            <p class="mb-3 font-sans text-gray-800">EVENT KEYWORD</p>
-            <input class="px-2 py-2.5 text-black rounded-sm" type="text" name="q" placeholder="Type event name">
+            <p class="font-mono text-sm md:text-base">EVENT KEYWORD</p>
+            <input class="w-full px-2 py-2 text-sm md:text-base rounded-md font-mono focus:outline-none focus:ring-2 focus:ring-yellow-300" type="text" name="q" placeholder="type event name">
           </div>
-          <div>
-            <button class="bg-yellow-400 text-white p-2.5 px-4 mt-9 rounded-sm hover:bg-yellow-500" type="submit">SEARCH EVENT</button>
+          <div class="py-2 lg:py-4">
+            <button class="bg-yellow-400 font-mono text-sm md:text-base w-full py-2 px-2 rounded-md focus:ring-4 focus:ring-yellow-200 hover:bg-yellow-500 " type="submit">SEARCH</button>
           </div>
         </form>
       </div>
     </section>
-
+    
     <!-- Events box -->
-      <div class="px-20 mt-5 mb-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="px-4 lg:px-20 my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
         
         <!-- Single event box -->
         {% if events %}
@@ -92,7 +93,7 @@
             </div>
           {% endfor %}
         {% else %}
-            <h3><span class="text-red-600">Warning: </span>There are no events on today's date. You can search for events.</h3>
+            <h3 class="text-sm"><span class="text-red-600">Warning: </span>There are no events on today's date. You can search for events.</h3>
         {% endif %} 
       </div>
   </main>

@@ -8,12 +8,13 @@
     <link rel="stylesheet" href="{% static 'css/output.css' %}">
 </head>
 <body class="bg-blue-100">
-    <h1 class="text-center text-3xl py-10 font-serif">Create Event Form</h1>
+
+    <h1 class="text-center text-lg md:text-2xl py-10 font-serif">Event Form</h1>
     <div class="text-center">
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" class="text-sm lg:text-base mb-5">
             {% csrf_token %}
             {{ form.as_p }}
-            <button class="ml-28 bg-green-500 text-white w-1/2 mt-4 hover:bg-green-600 py-2 rounded-lg text-lg shadow-sm font-serif" type="submit">Submit</button>
+            <button class="ml-28 bg-green-500 text-white w-1/2 mt-4 hover:bg-green-600 py-2 rounded-lg text-sm lg:text-base shadow-sm font-serif" type="submit">Submit</button>
         </form>
     </div>
     
