@@ -1,12 +1,7 @@
 
 from django.urls import path
-<<<<<<< HEAD
-from events.views import create_event, create_category, create_participant, view_event, delete_event, delete_category, delete_participant, update_event, update_category, update_participant, dashboard, details
-
-=======
 from events.views import create_event, create_category, create_participant, view_event, delete_event, delete_category, delete_participant, update_event, update_category, update_participant, dashboard, details, create_group, delete_group, change_role, no_permission,rsvp_system, activate_user
 from events.views import signUp, signIn, signOut
->>>>>>> assignment-2
 
 urlpatterns = [
     path('create-event/', create_event, name='create-event'),
@@ -21,8 +16,6 @@ urlpatterns = [
     path('update-participant/<int:id>/', update_participant, name='update-participant'),
     path('dashboard/', dashboard, name='dashboard'),
     path('details/<int:id>/', details, name='details'),
-<<<<<<< HEAD
-=======
     path('sign-up/', signUp, name='sign-up'),
     path('sign-in/', signIn, name='sign-in'),
     path('sign-out/', signOut, name='sign-out'),
@@ -33,5 +26,4 @@ urlpatterns = [
     path('rsvp-system/<int:id>/', rsvp_system, name='rsvp-system'),
     path('activate/<int:user_id>/<str:token>/', activate_user, name='activate-user')
 
->>>>>>> assignment-2
 ]

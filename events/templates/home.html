@@ -8,59 +8,6 @@
   <link rel="stylesheet" href="{% static 'css/output.css' %}" />
   <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-<<<<<<< HEAD
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Italianno&display=swap" rel="stylesheet">
-
-		<style>
-			body{
-				font-family: "Inter",sans-serif;
-        font-family: 'Times New Roman', Times, serif;
-        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
-			}
-		</style>
-
-</head>
-<body class="bg-gray-100">
-
-  <header>
-    <section class="w-full px-2 md:px-10 lg:px-12 flex space-x-1 bg-white md:justify-between">
-      <div class="h-8">
-        <img src="{% static 'images/0.site-logo.png' %}" alt="logo" class="w-20 h-auto py-3">
-      </div>
-      <div class="flex gap-2 py-2 md:gap-6">
-        <a class="text-sm text-red-500 hover:text-red-500" href="">Home</a>
-        <a class="text-sm hover:text-red-500" href="{% url 'view-event' %}">Event</a>
-        <a class="text-sm hover:text-red-500" href="{% url 'dashboard' %}">Dashboard</a>
-        <a class="text-sm hover:text-red-500" href="">About</a>
-        <a class="text-sm hover:text-red-500" href="">Contact</a>
-      </div>
-      <div class="hidden md:flex hover:cursor-pointer md:space-x-2 lg:space-x-2">
-        <i class="fa-solid fa-user text-xl bg-gray-200 md:p-2 rounded-full hover:bg-red-500 hover:text-white"></i>
-        <i class="fa-solid fa-bell text-xl bg-gray-200 md:p-2 rounded-full hover:bg-red-500 hover:text-white"></i>
-      </div>
-    </section>
-  </header>
-
-  <main>
-
-    <!-- hero -->
-    <section class="relative h-40 md:h-64 lg:h-96 w-full bg-cover bg-center" style="background-image: url('{% static 'images/bg-1-1.jpg' %}');">
-      <div class="flex items-center justify-center h-full">
-        <p class="text-white font-serif text-sm md:text-2xl lg:text-3xl text-center">
-          Birthday Event Management Specialist<br><br>
-          <span class="font-serif text-sm md:xl lg:text-xl">CELEBRATE YOUR EVENT'S THATS LAST LONGER</span>
-        </p>
-      </div>
-    </section>
-    
-    <!-- search  -->
-    <section class="w-full bg-slate-200 px-2 md:px-10">
-      <div class=" text-slate-900">
-        <p class="font-mono py-1 text-center">FIND BEST EVENT ON HARMONI</p>
-        <p class="font-mono text-sm">EVENT <span class="text-yellow-400">SEARCH</span></p>
-=======
 
 </head>
 
@@ -102,128 +49,20 @@
       <div class="text-slate-900">
         <p class="font-mono mb-4 text-center text-sm md:text-lg">FIND BEST EVENT ON HARMONI</p>
         <p class="font-mono text-sm md:text-base">EVENT <span class="text-yellow-500 text-2xl">SEARCH</span></p>
->>>>>>> assignment-2
       </div>
       <div class="text-slate-900">
         <!-- form  -->
         <form action="{% url 'home' %}" method="GET">
           <div>
-<<<<<<< HEAD
-            <p class="font-mono">EVENT KEYWORD</p>
-            <input class="w-full px-2 py-2 rounded-md font-mono" type="text" name="q" placeholder="type event name">
-          </div>
-          <div class="py-2">
-            <button class="bg-yellow-400 font-mono w-full py-2 px-2 rounded-md focus:ring-4 focus:ring-yellow-200 hover:bg-yellow-500 " type="submit">SEARCH</button>
-=======
             <p class="font-mono text-sm md:text-base">EVENT KEYWORD</p>
             <input class="w-full px-2 py-2 text-sm md:text-base rounded-md font-mono focus:outline-none focus:ring-2 focus:ring-yellow-300" type="text" name="q" placeholder="type event name">
           </div>
           <div class="py-2 lg:py-4">
             <button class="bg-yellow-400 font-mono text-sm md:text-base w-full py-2 px-2 rounded-md focus:ring-4 focus:ring-yellow-200 hover:bg-yellow-500 " type="submit">SEARCH</button>
->>>>>>> assignment-2
           </div>
         </form>
       </div>
     </section>
-<<<<<<< HEAD
-
-    <!-- Events box-->
-    <section class="px-2 md:px-10 w-full">
-      <h3 class="text-sm md:text-xl lg:text-2xl text-center font-mono py-4">EVENT'S</h3>
-      <!-- Single event box -->
-      {% if events %}
-        {% for event in events %}
-
-            <div class="w-full bg-white shadow-sm mt-2">
-              <!-- image div -->
-              <div class="">
-                {% if event.image %}
-                    <img class="rounded-lg p-1 w-full h-20" src="{{event.image.url}}" alt="image">
-                {% else %}
-                    <img class="rounded-lg p-1" src="{% static 'images/default.jpg' %}" alt="image">
-                {% endif %}
-              </div>
-
-              <div class="px-1 text-sm">
-                <h1 class="text-sm"><span class="text-gray-500">{{event.category}}</span> {{event.name}} </h1>
-                <p class="py-1">{{event.description|truncatewords:10}}</p>
-                <div class="flex">
-                  <div class="flex space-x-1 mt-2">
-                    <div>
-                      <i class="fa-solid fa-calendar-days text-white text-sm bg-yellow-400 rounded-full"></i>
-                    </div>
-                    <div>
-                      <h3 class="text-sm text-gray-500">Date</h3>
-                      <h2 class="text-sm">{{event.date}}</h2>
-                    </div>
-                  </div>
-                  <div class="flex space-x-1 mt-2">
-                    <div>
-                      <i class="fa-solid fa-clock text-white text-sm bg-yellow-400 rounded-full"></i>
-                    </div>
-                    <div>
-                      <h3 class="text-sm text-gray-500">Time</h3>
-                      <h2 class="text-sm">{{event.time|time:"g : i A"}}</h2>
-                    </div>
-                  </div>
-                  <div class="flex space-x-1 mt-2">
-                    <div>
-                      <i class="fa-solid fa-location-dot text-white text-sm bg-yellow-400 rounded-full"></i>
-                    </div>
-                    <div>
-                      <h3 class="text-md text-gray-500">Location</h3>
-                      <h2 class="text-sm">{{event.location}}</h2>
-                    </div>
-                  </div>
-                  <div class="hidden mt-2">
-                    <div class="mt-1">
-                      <i class="fa-regular fa-circle-user text-white text-sm bg-yellow-400 rounded-full"></i>
-                    </div>
-                    <div>
-                      <h3 class="text-sm text-gray-500">Total Participant's</h3>
-                      <h2 class="text-sm">{{event.participants.count}}</h2>
-                    </div>
-                  </div>
-                </div>
-                <div class="py-2">
-                  <form action="{% url 'details' event.id %}" method="GET">
-                    {% csrf_token %}
-                    <button class="bg-yellow-400 w-full py-2 rounded-md text-sm text-gray-900 focus:ring-4 focus:ring-yellow-200 hover:bg-yellow-500 hover:text-black" type="submit">Ticket and Details</button>
-                  </form>
-                </div>
-              </div>
-            </div>
-
-        {% endfor %}
-      {% else %}
-          <p class="text-red-600 py-2 text-sm">Warning: <span>No Events found today.......</span></p>
-      {% endif %}
-    </section>
-
-  </main>
-
-  <!-- Footer  -->
-  <footer>
-    <section class="bg-slate-800 mt-10">
-      <h1 class="text-xl font-mono text-center text-white">CONTACT US</h1>
-      <div class="md:px-10 text-center md:flex md:items-center md:justify-between md:gap-28">
-        <div class="hidden md:flex md:items-center md:justify-center">
-          <i class="fa-regular fa-message text-9xl text-white"></i>
-        </div>
-        <div class="mt-3">
-          <form class="text-white font-mono text-sm md:text-base" action="">
-            <label for="">NAME</label>
-            <input class="px-3 md:w-72 py-1 rounded-sm mb-1" type="text" placeholder="Type your name" required><br>
-            <label for="">EMAIL</label>
-            <input class="px-3 md:w-72 py-1 rounded-sm mb-1" type="text" placeholder="Type your email" required><br>
-            <label for="">MESSAGE</label>
-            <input class="px-3 md:w-72 py-6 rounded-sm" type="text" placeholder="Type your message" required><br>
-            <button class="bg-blue-800 px-20 md:px-32 ml-16 md:ml-20 py-1 mt-2 mb-2 rounded-sm focus:ring-4 focus:ring-white hover:bg-blue-700" type="submit">Send</button>
-          </form>
-        </div>
-      </div>
-    </section>
-=======
     
     <!-- Events box -->
       <div class="px-4 lg:px-20 my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
@@ -261,7 +100,6 @@
 
   <footer>
     {% include "footer/footer.html" %}
->>>>>>> assignment-2
   </footer>
 
 </body>
