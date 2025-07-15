@@ -26,3 +26,4 @@ pytweening==1.2.0
 sqlparse==0.5.3
 to-requirements.txt==2.0.14
 tzdata==2025.1
+django-debug-toolbar==5.1.0
