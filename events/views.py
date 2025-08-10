@@ -359,6 +359,7 @@ def signUp(request):
             user.set_password(form.cleaned_data.get('password1'))
             user.is_active = False
             user.save()
+            messages.success(request, "Activation link send Email. Please check your Inbox")
             return redirect('sign-in')
 
     return render(request, 'signUp.html', {'form':form})
