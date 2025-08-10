@@ -6,6 +6,10 @@ from django.conf import settings
 from django.core.mail import send_mail
 from events.models import Event
 
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
 
 @receiver(post_save, sender=User)
 def send_email_activation(sender, instance, created, **kwargs):

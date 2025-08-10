@@ -19,10 +19,11 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 import debug_toolbar
-from events.views import home
+from events.views import Home
 
 urlpatterns = [
-    path('', home, name='home'),
+    # path('', home, name='home'),
+    path('', Home.as_view(), name='home'),
     path('admin/', admin.site.urls),
     path('event/', include('events.urls')),
     

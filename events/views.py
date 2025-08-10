@@ -1,14 +1,22 @@
 from django.shortcuts import render, redirect, HttpResponse
-from events.forms import EventModelForm, CategoryModelForm, GroupModelForm, CustomSignUpModelForm, SignInForm, ChangeRoleForm
+from events.forms import EventModelForm, CategoryModelForm, GroupModelForm, CustomSignUpModelForm, SignInForm, ChangeRoleForm, EditProfileForm, CustomPasswordChangeForm, CustomPasswordResetForm, CustomPasswordResetConfirmForm
 from events.models import Event, Category
 from django.contrib import messages
 from datetime import date
 from django.contrib.auth import login, logout
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
 from django.contrib.auth.decorators import login_required, user_passes_test, permission_required
 from django.contrib.auth.tokens import default_token_generator
+from django.views.generic import TemplateView, CreateView, UpdateView
+from django.contrib.auth.views import LoginView, LogoutView, PasswordChangeView, PasswordChangeDoneView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView
+from django.views import View
+from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
+from django.contrib.auth import get_user_model
 
-# Role access
+User = get_user_model()
+
+'''Role access'''
 
 def is_admin(user):
     return user.groups.filter(name='Admin').exists()
@@ -16,19 +24,9 @@ def is_admin(user):
 def is_organizer(user):
     return user.groups.filter(name='Organizer').exists()
 
-# Create your views here.
+'''Create your views here.'''
 
-# def search(request):
-#     base_query = Event.objects.prefetch_related('category').prefetch_related('participants')
-
-#     query = request.GET.get('q')
-
-#     if query:
-#         events = base_query.filter(name__icontains=query)
-#         return render(request, 'search.html', {'events':events})
-#     else:
-#         return redirect('home')
-
+'''
 def home(request):
     base_query = Event.objects.prefetch_related('category').prefetch_related('participants')
     events = Event.objects.prefetch_related('category').filter(date=date.today()).prefetch_related('participants')
@@ -40,6 +38,22 @@ def home(request):
 
     return render(request, 'home.html', {'events':events})
 
+'''
+
+class Home(TemplateView):
+    template_name = 'home.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        base_query = Event.objects.prefetch_related('category').prefetch_related('participants')
+        query = self.request.GET.get('q')
+        if query:
+            context['events'] = base_query.filter(name__icontains=query)
+        else:
+            context['events'] = Event.objects.prefetch_related('category').filter(date=date.today()).prefetch_related('participants')
+        
+        return context
+    
 
 @login_required
 @user_passes_test(is_admin, login_url='no-permission')
@@ -50,12 +64,13 @@ def create_group(request):
         form = GroupModelForm(request.POST)
         if form.is_valid():
             form.save()
-
             messages.success(request, "Successfully Group Created")
             return redirect('dashboard')
         
     return render(request, 'group_form.html', {'form':form})
-    
+
+
+'''
 @login_required
 @permission_required("events.add_event", login_url='no-permission')
 def create_event(request):
@@ -72,7 +87,22 @@ def create_event(request):
 
     return render(request, 'create_event.html', {'form':form})
 
+'''
 
+create_event_decorator = [login_required, permission_required('events.add_event', login_url='no-permission')]
+@method_decorator(create_event_decorator, name='dispatch')
+class CreateEvent(CreateView):
+    model = Event
+    form_class = EventModelForm
+    template_name = 'create_event.html'
+    success_url = reverse_lazy('dashboard')
+
+    def get_success_url(self):
+        messages.success(self.request, "Successfully Created Event.")
+        return reverse_lazy('dashboard')
+    
+
+'''
 @login_required
 @permission_required('events.add_category', login_url='no-permission')
 def create_category(request):
@@ -88,6 +118,20 @@ def create_category(request):
 
     return render(request, 'create_category.html', {'form':form})
 
+'''
+
+create_category_decorator = [login_required, permission_required('events.add_category', login_url='no-permission')]
+@method_decorator(create_category_decorator, name='dispatch')
+class CreateCategory(CreateView):
+    model = Category
+    form_class = CategoryModelForm
+    template_name = 'create_category.html'
+
+    def get_success_url(self):
+        messages.success(self.request, "Successfully Created Category.")
+        return reverse_lazy('dashboard')
+
+    
 
 @login_required
 @user_passes_test(is_admin, login_url='no-permission')
@@ -348,7 +392,7 @@ def delete_group(request, id):
 
 
 # # user authentication
-
+'''
 def signUp(request):
     form = CustomSignUpModelForm()
 
@@ -363,7 +407,29 @@ def signUp(request):
 
     return render(request, 'signUp.html', {'form':form})
 
+'''
 
+class SignUp(View):
+
+    def get(self, request, *args, **kargs):
+        form = CustomSignUpModelForm()
+        return render(request, 'signUp.html', {'form':form})
+    
+    def post(self, request, *args, **kargs):
+        form = CustomSignUpModelForm(request.POST)
+
+        if form.is_valid():
+            user = form.save(commit=False) # create user model object
+            user.set_password(form.cleaned_data.get('password1'))
+            user.is_active = False
+            user.save()
+            messages.success(request, 'Send mail please check your inbox.')
+            return redirect('sign-in')
+
+        else:
+            messages.error(request, 'Form is not valid!. Please try again...')
+            return render(request, 'signUp.html', {'form':form})
+'''
 def signIn(request):
     form = SignInForm()
 
@@ -376,11 +442,28 @@ def signIn(request):
 
     return render(request, 'signIn.html', {'form':form})
 
+'''
 
+class SignIn(LoginView):
+    form_class = SignInForm
+    template_name = 'signIn.html'
+
+    def get_success_url(self):
+        return reverse_lazy('home')
+
+
+'''
 def signOut(request):
     if request.method == 'POST':
         logout(request)
         return redirect('home')
+    
+'''
+
+@method_decorator(login_required, name='dispatch')
+class SignOut(LogoutView):
+    next_page = 'sign-in'
+
     
 @login_required
 @user_passes_test(is_admin, login_url='no-permission')
@@ -434,3 +517,74 @@ def activate_user(request, user_id, token):
         
     except User.DoesNotExist:
         return HttpResponse("User not found!!!!!!1")
+    
+
+class Profile(TemplateView):
+    template_name = 'accounts/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        context['image'] = user.profile_image
+        context['name'] = f'{user.first_name} {user.last_name}'
+        context['username'] = user.username
+        context['email'] = user.email
+        context['member_since'] = user.date_joined
+        context['bio'] = user.bio
+        context['last_login'] = user.last_login
+        context['user_group'] = user.groups.first()
+
+        return context
+    
+
+class EditProfile(UpdateView):
+    model = User
+    form_class = EditProfileForm
+    template_name = 'accounts/edit_profile.html'
+    context_object_name = 'form'
+
+    def get_object(self):
+        return self.request.user
+    
+    def form_valid(self, form):
+        form.save()
+        return redirect('profile')
+    
+
+
+class CustomPasswordChangeView(PasswordChangeView):
+    template_name = 'accounts/password_change.html'
+    form_class = CustomPasswordChangeForm
+
+
+class CustomPasswordChangeDoneView(PasswordChangeDoneView):
+    template_name = 'accounts/password_change_done.html'
+
+
+class CustomPasswordResetView(PasswordResetView):
+    form_class = CustomPasswordResetForm
+    template_name = 'accounts/password_reset.html'
+    email_template_name = 'accounts/reset_email.html'
+    success_url = reverse_lazy('sign-in')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['protocol'] = 'https' if self.request.is_secure() else 'http'
+        context['domain'] = self.request.get_host()
+        return context
+    
+    def form_valid(self, form):
+        messages.success(self.request, 'A Reset email sent. Please check your email.')
+        return super().form_valid(form)
+        
+
+
+
+class CustomPasswordResetConfirmView(PasswordResetConfirmView):
+    template_name = 'accounts/password_reset.html'
+    form_class = CustomPasswordResetConfirmForm
+    success_url = reverse_lazy('sign-in')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Password Reset Successfully.')
+        return super().form_valid(form)

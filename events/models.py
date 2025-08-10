@@ -1,8 +1,16 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
+from django.conf import settings
 
-# Create your models here.
+'''Custom User Model'''
+class CustomUser(AbstractUser):
+    profile_image = models.ImageField(upload_to='profileImages', blank=True, default='profileImages/default.png')
+    bio = models.CharField(max_length=500, blank=True)
 
+    def __str__(self):
+        return self.username
+
+'''Create your models here.'''
 
 class Category(models.Model):
     name = models.CharField(max_length=50)
@@ -15,7 +23,7 @@ class Category(models.Model):
 class Event(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(max_length=500)
-    participants = models.ManyToManyField(User, related_name='rsvp_events')
+    participants = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='rsvp_events')
     date = models.DateField()
     time = models.TimeField()
     location = models.CharField(max_length=100)

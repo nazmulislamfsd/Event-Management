@@ -12,11 +12,16 @@
         <a href="#" class="py-2.5 px-4 text-slate-700 hover:text-yellow-400 hover:font-bold hover:text-lg">About</a>
         <a href="#" class="py-2.5 px-4 text-slate-700 hover:text-yellow-400 hover:font-bold hover:text-lg">Contact</a>
     </div>
-    <div class="hidden md:block lg:mt-1">
+    <div class="hidden md:block lg:mt-1 lg:flex lg:gap-2">
+       
+
+        <button><a href="{% url 'profile' %} " class="text-white bg-blue-600 hover:bg-blue-500 focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-3 lg:px-4 py-1 lg:py-2 text-center">Profile</a></button>
+
         <form action="{% url 'sign-out' %}" method="POST">
             {% csrf_token %}
-            <button type="submit" class="text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-3 lg:px-4 py-1 lg:py-1 text-center">Logout</button>
+            <button type="submit" class="text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-3 lg:px-4 py-1 lg:py-2 text-center">Logout</button>
         </form>
+        
     </div>
     <div class="md:hidden">
         <details>

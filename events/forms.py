@@ -1,9 +1,11 @@
 from django import forms
-from events.models import Event, Category
-from django.contrib.auth.models import User, Group
+from events.models import Event, Category, CustomUser
+from django.contrib.auth.models import Group
 import re
-from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm, PasswordResetForm, SetPasswordForm
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 
 # StyleFormMixin
 
@@ -28,6 +30,11 @@ class StyledFormMixin:
                     'class': self.default_classes,
                     'placeholder':  f"Enter {field.label.lower()}",
                     'rows': 5
+                })
+            elif isinstance(field.widget, forms.EmailInput):
+                field.widget.attrs.update({
+                    'class': self.default_classes,
+                    'placeholder':  f"Enter {field.label.lower()}"
                 })
             elif isinstance(field.widget, forms.DateInput):
                 field.widget.attrs.update({
@@ -171,3 +178,20 @@ class SignInForm(StyledFormMixin, AuthenticationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+
+class EditProfileForm(StyledFormMixin, forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ['email', 'first_name', 'last_name', 'bio', 'profile_image']
+
+
+class CustomPasswordChangeForm(StyledFormMixin, PasswordChangeForm):
+    pass
+
+
+class CustomPasswordResetForm(StyledFormMixin, PasswordResetForm):
+    pass
+
+
+class CustomPasswordResetConfirmForm(StyledFormMixin, SetPasswordForm):
+    pass
