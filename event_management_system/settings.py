@@ -93,7 +93,7 @@ WSGI_APPLICATION = 'event_management_system.wsgi.application'
 # }
 
 
-# for deploy on Render.com
+# for deploy Render.com
 
 # DATABASES = {
 #     'default': dj_database_url.config(
@@ -104,7 +104,7 @@ WSGI_APPLICATION = 'event_management_system.wsgi.application'
 # }
 
 
-# for deploy on Render.com
+# for deploy Render.com
 
 DATABASES = {
     'default': dj_database_url.config(
@@ -126,6 +126,7 @@ DATABASES = {
 #         'PORT': config('PORT', default='')
 #     }
 # }
+
 
 
 # Password validation
